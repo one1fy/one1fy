@@ -1,13 +1,15 @@
 #[cfg(feature = "windows")]
 pub fn run_platform(
     handle_redraw: fn(&mut skia_safe::Canvas),
-    handle_click: fn(),
+    handle_click: fn(glutin::dpi::PhysicalPosition<f64>, glutin::event::ElementState, glutin::event::MouseButton),
 ) {
     use gl::types::*;
     use glutin::{
         event::{Event, KeyboardInput, VirtualKeyCode, WindowEvent},
+        event::WindowEvent::MouseInput,
         event_loop::{ControlFlow},
         window::WindowBuilder,
+        dpi::PhysicalPosition,
         GlProfile,
     };
     use skia_safe::{
@@ -112,6 +114,8 @@ pub fn run_platform(
         windowed_context,
     };
 
+    let mut last_postition = PhysicalPosition::<f64>::new(0.0, 0.0);
+
     #[allow(deprecated)]
     el.run(move |event, _, control_flow| {
         *control_flow = ControlFlow::Poll;
@@ -137,22 +141,25 @@ pub fn run_platform(
                         },
                     ..
                 } => {
-                    if modifiers.logo() {
-                        if let Some(VirtualKeyCode::Q) = virtual_keycode {
-                            *control_flow = ControlFlow::Exit;
-                        }
-                    }
-                    env.windowed_context.window().request_redraw();
+
+                }
+                WindowEvent::CursorMoved {
+                    position,
+                    ..
+                } => {
+                    last_postition = position;
+                }
+                WindowEvent::MouseInput {
+                    state,
+                    button,
+                    modifiers,
+                    ..
+                } => {
+                    handle_click(last_postition, state, button)
                 }
                 _ => (),
             },
-            Event::RedrawRequested(_) => {
-                {
-                    //handle_redraw(env.surface.canvas());
-                    // canvas.clear(Color::WHITE);
-                    // renderer::render_frame(frame % 360, 12, 60, canvas);
-                }
-            }
+            Event::RedrawRequested(_) => {}
             _ => (),
         }
 

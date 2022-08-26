@@ -1,6 +1,8 @@
 use one1fy_platform::run_platform;
 use skia_safe::{ Color, Canvas, Rect, Color4f };
 use skia_safe::paint::{ Paint };
+use glutin::event::{ ElementState, MouseButton };
+use glutin::dpi::PhysicalPosition;
 
 #[cfg(feature = "windows")]
 fn main() {
@@ -35,7 +37,7 @@ fn main() {
         }
     }
 
-    fn handle_click() {
+    fn handle_click(position: PhysicalPosition<f64>, state: ElementState, button: MouseButton) {
         println!("click");
     }
 
