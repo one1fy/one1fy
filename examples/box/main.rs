@@ -2,6 +2,7 @@ use one1fy::framework::*;
 use one1fy::framework::components::{
     BoxComponent,
     Style,
+    Color,
 };
 
 #[cfg(feature = "windows")]
@@ -11,7 +12,7 @@ fn main() {
 
 fn build() {
     let box_style: Style = Style::new(
-        0xffff0000,
+        Color::from_hex(0xff00ff),
     );
 
     let red_box: BoxComponent = BoxComponent::new(

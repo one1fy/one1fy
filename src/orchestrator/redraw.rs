@@ -30,6 +30,6 @@ pub fn handle_redraw(canvas: &mut Canvas, tree: &mut BoxComponent) {
         tree.top,
         tree.left + tree.width,
         tree.top + tree.height,
-        tree.style.color,
+        tree.style.color.color,
     );
 }
