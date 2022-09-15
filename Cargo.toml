@@ -1,11 +1,12 @@
 [package]
-name = "one1fy-platform"
+name = "one1fy"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
+default = ["windows"]
 windows = ["skia-safe/gl", "skia-safe/d3d"]
 
 [dependencies]
