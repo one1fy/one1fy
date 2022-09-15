@@ -9,6 +9,7 @@ fn draw_square(
     top: f32,
     right: f32,
     bottom: f32,
+    color: u32,
 ) {
     canvas.save();
     let rect = Rect::new(left, top, right, bottom);
@@ -16,20 +17,19 @@ fn draw_square(
         Color4f::new(0.0, 0.0, 0.0, 0.0),
         None
     );
-    paint.set_color(Color::BLUE);
+    paint.set_color(color);
     canvas.draw_rect(rect, &paint);
     canvas.restore();
 }
 
 pub fn handle_redraw(canvas: &mut Canvas, tree: &mut BoxComponent) {
-    static mut X: f32 = 0.0;
-    unsafe {
-        canvas.clear(Color::WHITE);
-        draw_square(canvas, X, 0.0, 100.0 + X, 100.0);
-        X += 0.5;
-
-        if X > 375.0 {
-            X = 0.0;
-        }
-    }
+    canvas.clear(Color::WHITE);
+    draw_square(
+        canvas,
+        tree.left,
+        tree.top,
+        tree.left + tree.width,
+        tree.top + tree.height,
+        tree.style.color,
+    );
 }

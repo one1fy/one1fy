@@ -1,9 +1,9 @@
 pub struct Style {
-    color: usize,
+    pub color: u32,
 }
 
 impl Style {
-    pub fn new(color: usize) -> Style {
+    pub fn new(color: u32) -> Style {
         Style {
             color,
         }
@@ -11,19 +11,19 @@ impl Style {
 }
 
 pub struct BoxComponent {
-    left: usize,
-    top: usize,
-    height: usize,
-    width: usize,
-    style: Style,
+    pub left: f32,
+    pub top: f32,
+    pub height: f32,
+    pub width: f32,
+    pub style: Style,
 }
 
 impl BoxComponent {
     pub fn new(
-        left: usize,
-        top: usize,
-        height: usize,
-        width: usize,
+        left: f32,
+        top: f32,
+        height: f32,
+        width: f32,
         style: Style,
     ) -> BoxComponent {
         BoxComponent {

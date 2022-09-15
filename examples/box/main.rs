@@ -10,9 +10,17 @@ fn main() {
 }
 
 fn build() {
-    let box_style: Style = Style::new(0xff0000);
+    let box_style: Style = Style::new(
+        0xffff0000,
+    );
 
-    let red_box: BoxComponent = BoxComponent::new(0, 0, 100, 100, box_style);
+    let red_box: BoxComponent = BoxComponent::new(
+        0.0,
+        0.0,
+        100.0,
+        100.0,
+        box_style,
+    );
 
     run_app(red_box);
 }
