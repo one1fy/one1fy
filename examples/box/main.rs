@@ -19,10 +19,10 @@ fn build() {
     );
 
     let red_box: BoxComponent = BoxComponent::new(
-        0.0,
-        0.0,
-        100.0,
-        100.0,
+        0,
+        0,
+        100,
+        100,
         box_style,
     );
 

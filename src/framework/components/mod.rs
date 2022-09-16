@@ -51,19 +51,19 @@ impl Color {
 }
 
 pub struct BoxComponent {
-    pub left: f32,
-    pub top: f32,
-    pub height: f32,
-    pub width: f32,
+    pub left: u32,
+    pub top: u32,
+    pub height: u32,
+    pub width: u32,
     pub style: Style,
 }
 
 impl BoxComponent {
     pub fn new(
-        left: f32,
-        top: f32,
-        height: f32,
-        width: f32,
+        left: u32,
+        top: u32,
+        height: u32,
+        width: u32,
         style: Style,
     ) -> BoxComponent {
         BoxComponent {
