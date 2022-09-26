@@ -8,6 +8,7 @@ edition = "2021"
 [features]
 default = ["windows"]
 windows = ["skia-safe/gl", "skia-safe/d3d"]
+macos = ["skia-safe/gl", "skia-safe/metal"]
 
 [dependencies]
 skia-safe = "0.53.0"
