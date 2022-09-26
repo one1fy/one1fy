@@ -8,7 +8,7 @@ pub use windows::start_event_loop;
 pub mod macos;
 
 #[cfg(feature = "macos")]
-pub use macos::start_event_loop_mac;
+pub use macos::start_event_loop;
 
 
 /*
