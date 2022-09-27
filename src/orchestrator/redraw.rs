@@ -1,5 +1,6 @@
 use skia_safe::{ Color, Canvas, Rect, Color4f };
 use skia_safe::paint::{ Paint };
+use glutin::dpi::PhysicalPosition;
 
 use crate::components::BoxComponent;
 
@@ -40,4 +41,20 @@ pub fn handle_redraw(canvas: &mut Canvas, tree: &mut BoxComponent) {
         tree.top + tree.height,
         tree.style.color.color,
     );
+}
+
+pub fn click_redraw(canvas: &mut Canvas, tree: &mut BoxComponent, position: PhysicalPosition<f64>) {
+    canvas.clear(Color::WHITE);
+    draw_square(
+        canvas,
+        position.x as u32,
+        position.y as u32,
+        (position.x as u32) + tree.width,
+        (position.y as u32) + tree.height,
+        tree.style.color.color,
+    );
+    println!("X POSITION: {}", position.x as u32);
+    println!("Y POSITION: {}", position.y as u32);
+    println!("WIDTH: {}", (position.x as u32) + tree.width);
+    println!("HEIGHT: {}\n\n", (position.y as u32) + tree.height);
 }

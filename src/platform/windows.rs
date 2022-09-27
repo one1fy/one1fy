@@ -1,4 +1,5 @@
 use crate::orchestrator::redraw::handle_redraw;
+use crate::orchestrator::redraw::click_redraw;
 use crate::orchestrator::event::click::handle_click;
 use crate::components::BoxComponent;
 
@@ -114,7 +115,7 @@ pub fn start_event_loop(mut tree: BoxComponent) {
         windowed_context,
     };
 
-    let mut last_postition = PhysicalPosition::<f64>::new(0.0, 0.0);
+    let mut last_position = PhysicalPosition::<f64>::new(0.0, 0.0);
 
     #[allow(deprecated)]
     el.run(move |event, _, control_flow| {
@@ -147,7 +148,7 @@ pub fn start_event_loop(mut tree: BoxComponent) {
                     position,
                     ..
                 } => {
-                    last_postition = position;
+                    last_position = position;
                 }
                 WindowEvent::MouseInput {
                     state,
@@ -155,11 +156,14 @@ pub fn start_event_loop(mut tree: BoxComponent) {
                     modifiers: _,
                     ..
                 } => {
-                    handle_click(last_postition, state, button)
+                    handle_click(last_position, state, button);
+                    click_redraw(env.surface.canvas(), &mut tree, last_position);
                 }
                 _ => (),
             },
-            Event::RedrawRequested(_) => {}
+            Event::RedrawRequested(_) => {
+                println!("Redraw Requested");
+            }
             _ => (),
         }
 
