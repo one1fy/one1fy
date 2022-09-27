@@ -16,7 +16,7 @@ use rand::Rng;
 #[cfg(feature = "macos")]
 use skia_safe::{scalar, Canvas, Color4f, ColorType, Paint, Point, Rect, Size, Surface};
 
-#[cfg(feature = "macos"]
+#[cfg(feature = "macos")]
 pub fn start_event_loop(mut tree: BoxComponent) {
     use cocoa::{appkit::NSView, base::id as cocoa_id};
 
@@ -29,8 +29,8 @@ pub fn start_event_loop(mut tree: BoxComponent) {
     use skia_safe::gpu::{mtl, BackendRenderTarget, DirectContext, SurfaceOrigin};
 
     use winit::{
-        dpi::LogicalSize,
-        event::{Event, WindowEvent},
+        dpi::{LogicalSize, PhysicalPosition},
+        event::{Event, WindowEvent, KeyboardInput},
         event_loop::{ControlFlow, EventLoop},
         platform::macos::WindowExtMacOS,
         window::WindowBuilder,
@@ -79,19 +79,18 @@ pub fn start_event_loop(mut tree: BoxComponent) {
 
     let mut context = DirectContext::new_metal(&backend, None).unwrap();
 
+    let mut last_position = PhysicalPosition::<f64>::new(0.0, 0.0);
+
     events_loop.run(move |event, _, control_flow| {
         *control_flow = ControlFlow::Poll;
 
         match event {
             Event::LoopDestroyed => {}
             Event::WindowEvent { event, .. } => match event {
-                WindowEvent::Resized(physical_size) => {
-                    env.surface = create_surface(
-                        &env.windowed_context,
-                        &fb_info,
-                        &mut env.gr_context
-                    );
-                    env.windowed_context.resize(physical_size)
+                WindowEvent::Resized(size) => {
+                    metal_layer
+                        .set_drawable_size(CGSize::new(size.width as f64, size.height as f64));
+                    window.request_redraw()
                 }
                 WindowEvent::CloseRequested => *control_flow = ControlFlow::Exit,
                 WindowEvent::KeyboardInput {
@@ -109,7 +108,7 @@ pub fn start_event_loop(mut tree: BoxComponent) {
                     position,
                     ..
                 } => {
-                    last_postition = position;
+                    last_position = position;
                 }
                 WindowEvent::MouseInput {
                     state,
@@ -117,17 +116,40 @@ pub fn start_event_loop(mut tree: BoxComponent) {
                     modifiers: _,
                     ..
                 } => {
-                    handle_click(last_postition, state, button)
+                    handle_click(last_position, state, button)
                 }
                 _ => (),
             },
             Event::RedrawRequested(_) => {}
             _ => (),
         }
-        draw(surface.canvas())
-        surface.flush_and_submit()
-        surface.drop();        
-    };
+        let drawable_size = {
+            let size = metal_layer.drawable_size();
+            Size::new(size.width as scalar, size.height as scalar)
+        };
+        let mut surface = unsafe {
+            let texture_info = 
+                mtl::TextureInfo::new(drawable.texture.as_ptr() as mtl::Handle);
+            let backend_render_target = BackendRenderTarget::new_metal(
+                (drawable_size.width as i32, drawable_size.height as i32),
+                1,
+                &texture_info,
+            );
+            Surface::from_backend_render_target(
+                &mut context,
+                &backend_render_target,
+                SurfaceOrigin::TopLeft,
+                ColorType::BGRA8888,
+                None,
+                None,
+            )
+            .unwrap()
+
+        };
+        handle_redraw(surface.canvas(), &mut tree);
+        surface.flush_and_submit();
+        drop(surface); 
+    });
 }
 
 /// Renders a rectangle that occupies exactly half of the canvas
