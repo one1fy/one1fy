@@ -1,5 +1,5 @@
 use crate::orchestrator::redraw::handle_redraw;
-use crate::orchestrator::redraw::click_redraw;
+use crate::orchestrator::redraw::move_component;
 use crate::orchestrator::event::click::handle_click;
 use crate::components::BoxComponent;
 
@@ -157,7 +157,7 @@ pub fn start_event_loop(mut tree: BoxComponent) {
                     ..
                 } => {
                     handle_click(last_position, state, button);
-                    click_redraw(env.surface.canvas(), &mut tree, last_position);
+                    move_component(&mut tree, last_position);
                 }
                 _ => (),
             },

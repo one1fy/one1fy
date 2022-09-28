@@ -43,18 +43,11 @@ pub fn handle_redraw(canvas: &mut Canvas, tree: &mut BoxComponent) {
     );
 }
 
-pub fn click_redraw(canvas: &mut Canvas, tree: &mut BoxComponent, position: PhysicalPosition<f64>) {
-    canvas.clear(Color::WHITE);
-    draw_square(
-        canvas,
-        position.x as u32,
-        position.y as u32,
-        (position.x as u32) + tree.width,
-        (position.y as u32) + tree.height,
-        tree.style.color.color,
-    );
-    println!("X POSITION: {}", position.x as u32);
-    println!("Y POSITION: {}", position.y as u32);
-    println!("WIDTH: {}", (position.x as u32) + tree.width);
-    println!("HEIGHT: {}\n\n", (position.y as u32) + tree.height);
+pub fn move_component(tree: &mut BoxComponent, position: PhysicalPosition<f64>) {
+    tree.left = position.x as u32;
+    tree.top = position.y as u32;
+    //println!("X POSITION: {}", position.x as u32);
+    //println!("Y POSITION: {}", position.y as u32);
+    //println!("WIDTH: {}", (position.x as u32) + tree.width);
+    //println!("HEIGHT: {}\n\n", (position.y as u32) + tree.height);
 }
