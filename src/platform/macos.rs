@@ -1,7 +1,6 @@
 use crate::orchestrator::redraw::handle_redraw;
 use crate::orchestrator::event::click::handle_click;
 use crate::components::BoxComponent;
-use rand::Rng;
 
 // #[cfg(not(target_os = "macos"))]
 // fn main() {
@@ -14,7 +13,7 @@ use rand::Rng;
 // }
 
 #[cfg(feature = "macos")]
-use skia_safe::{scalar, Canvas, Color4f, ColorType, Paint, Point, Rect, Size, Surface};
+use skia_safe::{scalar, ColorType, Size, Surface};
 
 #[cfg(feature = "macos")]
 pub fn start_event_loop(mut tree: BoxComponent) {
@@ -24,7 +23,7 @@ pub fn start_event_loop(mut tree: BoxComponent) {
 
     use foreign_types_shared::{ForeignType, ForeignTypeRef};
     use metal_rs::{Device, MTLPixelFormat, MetalLayer};
-    use objc::{rc::autoreleasepool, runtime::YES};
+    use objc::{runtime::YES};
 
     use skia_safe::gpu::{mtl, BackendRenderTarget, DirectContext, SurfaceOrigin};
 
@@ -123,32 +122,38 @@ pub fn start_event_loop(mut tree: BoxComponent) {
             Event::RedrawRequested(_) => {}
             _ => (),
         }
-        let drawable_size = {
-            let size = metal_layer.drawable_size();
-            Size::new(size.width as scalar, size.height as scalar)
-        };
-        let mut surface = unsafe {
-            let texture_info = 
-                mtl::TextureInfo::new(drawable.texture.as_ptr() as mtl::Handle);
-            let backend_render_target = BackendRenderTarget::new_metal(
-                (drawable_size.width as i32, drawable_size.height as i32),
-                1,
-                &texture_info,
-            );
-            Surface::from_backend_render_target(
-                &mut context,
-                &backend_render_target,
-                SurfaceOrigin::TopLeft,
-                ColorType::BGRA8888,
-                None,
-                None,
-            )
-            .unwrap()
-
-        };
-        handle_redraw(surface.canvas(), &mut tree);
-        surface.flush_and_submit();
-        drop(surface); 
+        if let Some(drawable) = metal_layer.next_drawable() {
+            let drawable_size = {
+                let size = metal_layer.drawable_size();
+                Size::new(size.width as scalar, size.height as scalar)
+            };
+            let mut surface = unsafe {
+                let texture_info = 
+                    mtl::TextureInfo::new(drawable.texture().as_ptr() as mtl::Handle);
+                let backend_render_target = BackendRenderTarget::new_metal(
+                    (drawable_size.width as i32, drawable_size.height as i32),
+                    1,
+                    &texture_info,
+                );
+                Surface::from_backend_render_target(
+                    &mut context,
+                    &backend_render_target,
+                    SurfaceOrigin::TopLeft,
+                    ColorType::BGRA8888,
+                    None,
+                    None,
+                )
+                .unwrap()
+    
+            };
+            handle_redraw(surface.canvas(), &mut tree);
+            surface.flush_and_submit();
+            drop(surface); 
+            let command_buffer = command_queue.new_command_buffer();
+            command_buffer.present_drawable(drawable);
+            command_buffer.commit();
+        }
+        
     });
 }
 
