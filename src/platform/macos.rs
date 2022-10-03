@@ -2,16 +2,6 @@ use crate::orchestrator::redraw::handle_redraw;
 use crate::orchestrator::event::click::handle_click;
 use crate::components::BoxComponent;
 
-// #[cfg(not(target_os = "macos"))]
-// fn main() {
-//     println!("This example is only supported on macos")
-// }
-
-// #[cfg(all(target_os = "macos", not(feature = "metal")))]
-// fn main() {
-//     println!("To run this example, invoke cargo with --features \"metal\".")
-// }
-
 #[cfg(feature = "macos")]
 use skia_safe::{scalar, ColorType, Size, Surface};
 
@@ -155,24 +145,4 @@ pub fn start_event_loop(mut tree: BoxComponent) {
         }
         
     });
-}
-
-/// Renders a rectangle that occupies exactly half of the canvas
-#[cfg(all(target_os = "macos", feature = "metal"))]
-fn draw(canvas: &mut Canvas) {
-    let mut rng = rand::thread_rng();
-    let col: f64 = rng.gen_range(0.0..1.0);
-    let canvas_size = Size::from(canvas.base_layer_size());
-
-    canvas.clear(Color4f::new(1.0, 1.0, 1.0, 1.0));
-
-    let rect_size = canvas_size / 2.0;
-    let rect = Rect::from_point_and_size(
-        Point::new(
-            (canvas_size.width - rect_size.width) / 2.0,
-            (canvas_size.height - rect_size.height) / 2.0,
-        ),
-        rect_size,
-    );
-    canvas.draw_rect(rect, &Paint::new(Color4f::new(0.0, 0.0, col, col), None));
 }

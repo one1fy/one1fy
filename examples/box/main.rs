@@ -7,7 +7,7 @@ use one1fy::framework::components::{
 
 // This function is only defined here because we are using windows.
 // Otherwise, Swift or Andoird NDK will call build() directly.
-// #[cfg(feature = "windows")]
+#[cfg(any(feature = "windows", feature = "macos"))]
 fn main() {
     build();
 }
