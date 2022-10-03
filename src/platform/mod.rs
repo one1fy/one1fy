@@ -10,10 +10,3 @@ pub mod macos;
 #[cfg(feature = "macos")]
 pub use macos::start_event_loop;
 
-
-/*
-#[cfg(not(feature = "windows"))]
-pub fn run_platform() {
-    print!("Unimplemented");
-}
-*/

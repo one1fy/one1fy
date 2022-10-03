@@ -12,10 +12,6 @@ fn main() {
     build();
 }
 
-// #[cfg(feature = "macos")]
-// fn main() {
-//     build_mac();
-// }
 
 /// This must be defined always as this is the entry point into the user's code.
 fn build() {
@@ -33,19 +29,3 @@ fn build() {
 
     run_app(red_box);
 }
-
-// fn build_mac() {
-//     let box_style: Style = Style::new(
-//         Color::from_hex(0xff00ff),
-//     );
-
-//     let red_box: BoxComponent = BoxComponent::new(
-//         0,
-//         0,
-//         100,
-//         100,
-//         box_style,
-//     );
-
-//     run_app_mac(red_box);
-// }
