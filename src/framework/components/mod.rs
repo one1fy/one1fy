@@ -1,3 +1,10 @@
+use skia_safe::{ Canvas, Rect, Color4f };
+use skia_safe::paint::{ Paint };
+
+pub trait Draw {
+    fn draw(&self, canvas: &mut Canvas);
+}
+
 pub struct Style {
     pub color: Color,
 }
@@ -74,4 +81,35 @@ impl BoxComponent {
             style,
         }
     }
+
+    pub fn set_left(&mut self, val: u32) {
+        self.left = val;
+    }
+
+    pub fn set_top(&mut self, val: u32) {
+        self.top = val;
+    }
 }
+
+impl Draw for BoxComponent {
+    fn draw(&self, canvas: &mut Canvas) {
+        canvas.save();
+        let right = self.left + self.width;
+        let bottom = self.top + self.height;
+        let rect = Rect::new(
+            self.left as f32,
+            self.top as f32,
+            right as f32,
+            bottom as f32,
+        );
+        let mut paint: Paint = Paint::new(
+            Color4f::new(0.0, 0.0, 0.0, 0.0),
+            None
+        );
+        paint.set_color(self.style.color.color);
+        canvas.draw_rect(rect, &paint);
+        canvas.restore();
+    }
+}
+
+
