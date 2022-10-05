@@ -52,17 +52,22 @@ impl BarContainer {
     }
 
     pub fn calculate_coordinate(container_width: u32, num_children: u32, current_child: u32, child_width: u32) -> u32 {
-        let current_slice: u32 = container_width * ((current_child + 1) / num_children);
-        let previous_slice: u32 = container_width * (current_child / num_children);
-        let left_to_change: u32 = ((current_slice + previous_slice) / 2) - child_width / 2;
-        left_to_change
+        println!("params: width = {}, num_children = {}, current_child = {}, child_width = {}", container_width, num_children, current_child, child_width);
+        let current_slice: f32 = container_width as f32 * ((current_child as f32 + 1.0) / num_children as f32);
+        println!("current slice = {}", current_slice);
+        let previous_slice: f32 = container_width as f32 * (current_child as f32 / num_children as f32);
+        println!("previous slice = {}", previous_slice);
+        let left_to_change: f32 = ((current_slice as f32 + previous_slice as f32) / 2.0) - child_width as f32 / 2.0;
+        println!("left_to_change = {}", left_to_change);
+        if (left_to_change < 0.0) {
+            return 0 as u32
+        }
+        left_to_change as u32
     }
 
     pub fn add_to_children(&mut self, child: Box<dyn Component_Traits>) {
         match &self.orientation {
             HORIZONTAL => {
-                println!("{}", child.get_width());
-                println!("{}", self.remaining_x);
                 if (self.remaining_x - child.get_width() >= 0) {
                     self.remaining_x = self.remaining_x - child.get_width();
                     self.children.push(child);

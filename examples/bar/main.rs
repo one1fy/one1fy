@@ -51,8 +51,8 @@ fn build() {
     let mut bar: BarContainer = BarContainer::new(
         nothing,
         true,
-        500,
-        500,
+        375,
+        667,
         0,
         0,
         children,
