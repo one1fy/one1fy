@@ -4,7 +4,8 @@ use crate::platform::start_event_loop;
 pub mod components;
 
 use crate::components::BoxComponent;
+use crate::components::BarContainer;
 
-pub fn run_app(tree: BoxComponent) {
+pub fn run_app(tree: BarContainer) {
     start_event_loop(tree);
 }
