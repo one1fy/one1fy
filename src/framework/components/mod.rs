@@ -1,9 +1,34 @@
 use skia_safe::{ Canvas, Rect, Color4f };
 use skia_safe::paint::{ Paint };
 
+pub mod bar;
+pub use bar::BarContainer;
+
 pub trait Draw {
     fn draw(&self, canvas: &mut Canvas);
 }
+
+//get_width
+pub trait Get_Width {
+    fn get_width(&self) -> u32;
+}
+
+//get_height
+pub trait Get_Height {
+    fn get_height(&self) -> u32;
+}
+
+//set_left
+pub trait Set_Left {
+    fn set_left(&mut self, value: u32);
+}
+
+//set_top
+pub trait Set_Top {
+    fn set_top(&mut self, value: u32);
+}
+
+pub trait Component_Traits: Draw + Get_Width + Get_Height + Set_Left + Set_Top {}
 
 pub struct Style {
     pub color: Color,
@@ -82,13 +107,9 @@ impl BoxComponent {
         }
     }
 
-    pub fn set_left(&mut self, val: u32) {
-        self.left = val;
-    }
+    
 
-    pub fn set_top(&mut self, val: u32) {
-        self.top = val;
-    }
+    
 }
 
 impl Draw for BoxComponent {
@@ -111,5 +132,31 @@ impl Draw for BoxComponent {
         canvas.restore();
     }
 }
+
+impl Get_Height for BoxComponent {
+    fn get_height(&self) -> u32 {
+        self.height
+    }
+}
+
+impl Get_Width for BoxComponent {
+    fn get_width(&self) -> u32 {
+        self.width
+    }
+}
+
+impl Set_Left for BoxComponent {
+    fn set_left(&mut self, val: u32) {
+        self.left = val;
+    }
+}
+
+impl Set_Top for BoxComponent {
+    fn set_top(&mut self, val: u32) {
+        self.top = val;
+    }
+}
+
+impl<T: Draw + Get_Height + Get_Width + Set_Left + Set_Top> Component_Traits for T {}
 
 

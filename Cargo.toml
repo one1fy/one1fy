@@ -20,3 +20,11 @@ foreign-types-shared = "0.1.1"
 winit = "0.27.0"
 objc = "0.2.7"
 metal-rs = { package = "metal", version = "0.23.1" }
+
+[dependencies.uuid]
+version = "1.1.2"
+features = [
+    "v4",                # Lets you generate random UUIDs
+    "fast-rng",          # Use a faster (but still sufficiently random) RNG
+    "macro-diagnostics", # Enable better diagnostics for compile-time UUIDs
+]
