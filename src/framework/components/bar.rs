@@ -109,8 +109,11 @@ impl BarContainer {
 }
 impl Draw for BarContainer{
     fn draw(&self, canvas: &mut Canvas) {
-        for child in self.children.iter() {
-            child.draw(canvas);
+        if (self.visible) {
+            for child in self.children.iter() {
+                child.draw(canvas);
+            }
         }
+        
     }
 }

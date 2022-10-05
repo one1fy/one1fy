@@ -88,6 +88,7 @@ pub struct BoxComponent {
     pub height: u32,
     pub width: u32,
     pub style: Style,
+    pub visible: bool,
 }
 
 impl BoxComponent {
@@ -97,6 +98,7 @@ impl BoxComponent {
         height: u32,
         width: u32,
         style: Style,
+        visible: bool,
     ) -> BoxComponent {
         BoxComponent {
             left,
@@ -104,6 +106,7 @@ impl BoxComponent {
             height,
             width,
             style,
+            visible,
         }
     }
 
@@ -114,22 +117,25 @@ impl BoxComponent {
 
 impl Draw for BoxComponent {
     fn draw(&self, canvas: &mut Canvas) {
-        canvas.save();
-        let right = self.left + self.width;
-        let bottom = self.top + self.height;
-        let rect = Rect::new(
-            self.left as f32,
-            self.top as f32,
-            right as f32,
-            bottom as f32,
-        );
-        let mut paint: Paint = Paint::new(
-            Color4f::new(0.0, 0.0, 0.0, 0.0),
-            None
-        );
-        paint.set_color(self.style.color.color);
-        canvas.draw_rect(rect, &paint);
-        canvas.restore();
+        if (self.visible) {
+            canvas.save();
+            let right = self.left + self.width;
+            let bottom = self.top + self.height;
+            let rect = Rect::new(
+                self.left as f32,
+                self.top as f32,
+                right as f32,
+                bottom as f32,
+            );
+            let mut paint: Paint = Paint::new(
+                Color4f::new(0.0, 0.0, 0.0, 0.0),
+                None
+            );
+            paint.set_color(self.style.color.color);
+            canvas.draw_rect(rect, &paint);
+            canvas.restore();
+        }
+        
     }
 }
 

@@ -25,6 +25,7 @@ fn build() {
         100,
         100,
         box_style,
+        true
     );
 
     run_app(red_box);

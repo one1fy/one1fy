@@ -21,10 +21,11 @@ fn build() {
         100,
         100,
         box_style_1,
+        true,
     );
 
     let box_style_2: Style = Style::new(
-        Color::from_hex(0xff00ff),
+        Color::from_hex(0x00ffff),
     );
 
     let red_box_2: BoxComponent = BoxComponent::new(
@@ -33,10 +34,11 @@ fn build() {
         100,
         100,
         box_style_2,
+        true,
     );
 
     let box_style_3: Style = Style::new(
-        Color::from_hex(0xff00ff),
+        Color::from_hex(0x0000ff),
     );
 
     let red_box_3: BoxComponent = BoxComponent::new(
@@ -45,6 +47,7 @@ fn build() {
         100,
         100,
         box_style_3,
+        true,
     );
     let children: Vec<Box<dyn Component_Traits>> = Vec::new();
     fn nothing() {}
