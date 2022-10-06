@@ -7,10 +7,11 @@ use one1fy::framework::components::{
 
 // This function is only defined here because we are using windows.
 // Otherwise, Swift or Andoird NDK will call build() directly.
-#[cfg(feature = "windows")]
+#[cfg(any(feature = "windows", feature = "macos"))]
 fn main() {
     build();
 }
+
 
 /// This must be defined always as this is the entry point into the user's code.
 fn build() {
@@ -24,6 +25,7 @@ fn build() {
         100,
         100,
         box_style,
+        true
     );
 
     run_app(red_box);
