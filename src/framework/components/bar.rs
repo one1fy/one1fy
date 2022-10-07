@@ -48,7 +48,7 @@ impl BarContainer {
             remaining_x: width,
             remaining_y: height,
         }
-        
+
     }
 
     pub fn calculate_coordinate(container_width: u32, num_children: u32, current_child: u32, child_width: u32) -> u32 {
@@ -100,20 +100,20 @@ impl BarContainer {
                 }
             }
         }
-        
+
     }
 
-    
 
-    
+
+
 }
 impl Draw for BarContainer{
-    fn draw(&self, canvas: &mut Canvas) {
+    fn draw(&mut self, canvas: &mut Canvas) {
         if (self.visible) {
             for child in self.children.iter() {
-                child.draw(canvas);
+                //child.draw(canvas);
             }
         }
-        
+
     }
 }

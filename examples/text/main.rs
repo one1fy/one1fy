@@ -17,10 +17,9 @@ fn main() {
 
 /// This must be defined always as this is the entry point into the user's code.
 fn build() {
-    use one1fy::components::Component_Traits;
-
     let text: String = "hello world".to_string();
-    let component: TextComponent = TextComponent::new(0, 0, 10, text);
+    let color: Color = Color::from_hex(0xFF0000);
+    let component: TextComponent = TextComponent::new(0, 0, 10, text, color);
     let tree: Box<dyn Component_Traits> = Box::new(component);
 
     run_app(tree);

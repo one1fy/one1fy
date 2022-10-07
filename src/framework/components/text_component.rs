@@ -22,6 +22,7 @@ pub struct TextComponent {
     pub top: u32,
     pub font_size: u32,
     pub text: String,
+    pub color: crate::components::Color,
 }
 
 impl TextComponent {
@@ -30,18 +31,20 @@ impl TextComponent {
         top: u32,
         font_size: u32,
         text: String,
+        color: crate::components::Color,
     ) -> TextComponent {
         TextComponent {
             left,
             top,
             font_size,
             text,
+            color,
         }
     }
 }
 
 impl Draw for TextComponent {
-    fn draw(&self, canvas: &mut Canvas) {
+    fn draw(&mut self, canvas: &mut Canvas) {
         canvas.save();
 
         use skia_safe::{Font, FontStyle};
@@ -71,10 +74,10 @@ impl Draw for TextComponent {
         );
 
         use crate::components::Color;
-        let color: Color = Color::from_hex(0xFF0000);
+        //let color: Color = Color::from_hex(0xFF0000);
 
         paint.set_style(skia_safe::PaintStyle::Fill);
-        paint.set_color(color.color);
+        paint.set_color(self.color.color);
 
         canvas.draw_text_blob(
             text.unwrap(),
@@ -82,7 +85,13 @@ impl Draw for TextComponent {
             &paint,
         );
 
-        //canvas.restore();
+        let alpha: u32 = 0xFF000000;
+        self.color.color += 0x0F;
+        if self.color.color == 0xFFFFFFFF {
+            self.color.color = 0xFF000000;
+        }
+        self.color.color |= alpha;
+        // println!("color: {:#08X}", self.color.color);
     }
 }
 

@@ -8,7 +8,7 @@ pub mod text_component;
 pub use text_component::TextComponent;
 
 pub trait Draw {
-    fn draw(&self, canvas: &mut Canvas);
+    fn draw(&mut self, canvas: &mut Canvas);
 }
 
 //get_width
@@ -115,7 +115,7 @@ impl BoxComponent {
 }
 
 impl Draw for BoxComponent {
-    fn draw(&self, canvas: &mut Canvas) {
+    fn draw(&mut self, canvas: &mut Canvas) {
         if (self.visible) {
             canvas.save();
             let right = self.left + self.width;
