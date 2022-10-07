@@ -4,6 +4,9 @@ use skia_safe::paint::{ Paint };
 pub mod bar;
 pub use bar::BarContainer;
 
+pub mod text_component;
+pub use text_component::TextComponent;
+
 pub trait Draw {
     fn draw(&self, canvas: &mut Canvas);
 }
@@ -109,10 +112,6 @@ impl BoxComponent {
             visible,
         }
     }
-
-    
-
-    
 }
 
 impl Draw for BoxComponent {
@@ -135,7 +134,7 @@ impl Draw for BoxComponent {
             canvas.draw_rect(rect, &paint);
             canvas.restore();
         }
-        
+
     }
 }
 
