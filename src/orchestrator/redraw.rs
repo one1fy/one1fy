@@ -1,8 +1,8 @@
-use skia_safe::{ Color, Canvas, Rect, Color4f };
-use skia_safe::paint::{ Paint };
+use skia_safe::{ Color, Canvas };
 
 use crate::components::*;
 
+/*
 fn draw_square(
     canvas: &mut Canvas,
     left: u32,
@@ -29,6 +29,7 @@ fn draw_square(
     canvas.draw_rect(rect, &paint);
     canvas.restore();
 }
+*/
 
 pub fn handle_redraw(canvas: &mut Canvas, tree: &mut Box<dyn ComponentTraits>) {
     canvas.clear(Color::WHITE);

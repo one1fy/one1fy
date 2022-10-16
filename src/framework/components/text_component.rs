@@ -1,16 +1,13 @@
 use skia_safe::Color4f;
 use skia_safe::Paint;
 use skia_safe::Point;
-use skia_safe::Scalar;
 use skia_safe::TextBlob;
 use skia_safe::Canvas;
 use skia_safe::Typeface;
 use skia_safe::font_style::Slant;
 use skia_safe::font_style::Weight;
 use skia_safe::font_style::Width;
-use skia_safe::wrapper::ValueWrapper;
 
-use super::ComponentTraits;
 use super::Draw;
 use super::GetHeight;
 use super::GetWidth;
@@ -73,9 +70,6 @@ impl Draw for TextComponent {
             None
         );
 
-        use crate::components::Color;
-        //let color: Color = Color::from_hex(0xFF0000);
-
         paint.set_style(skia_safe::PaintStyle::Fill);
         paint.set_color(self.color.color);
 
@@ -84,15 +78,6 @@ impl Draw for TextComponent {
             Point::new(100.0, 100.0),
             &paint,
         );
-
-        /*
-        let alpha: u32 = 0xFF000000;
-        self.color.color += 0x0F;
-        if self.color.color == 0xFFFFFFFF {
-            self.color.color = 0xFF000000;
-        }
-        self.color.color |= alpha;
-        */
     }
 }
 
@@ -109,11 +94,11 @@ impl GetHeight for TextComponent {
 }
 
 impl SetLeft for TextComponent {
-    fn set_left(&mut self, value: u32) {
+    fn set_left(&mut self, _value: u32) {
     }
 }
 
 impl SetTop for TextComponent {
-    fn set_top(&mut self, value: u32) {
+    fn set_top(&mut self, _value: u32) {
     }
 }

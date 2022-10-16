@@ -1,8 +1,6 @@
 use one1fy::components::ComponentTraits;
 use one1fy::framework::*;
 use one1fy::framework::components::{
-    BoxComponent,
-    Style,
     Color,
     TextComponent,
 };

@@ -1,6 +1,5 @@
 use crate::orchestrator::redraw::handle_redraw;
 use crate::orchestrator::event::click::handle_click;
-use crate::components::BoxComponent;
 use crate::components::ComponentTraits;
 
 #[cfg(feature = "windows")]
