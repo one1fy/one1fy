@@ -15,7 +15,7 @@ pub struct BarContainer {
     pub width: u32,
     pub left: u32,
     pub top: u32,
-    pub children: Vec<Box<dyn Component_Traits>>,
+    pub children: Vec<Box<dyn ComponentTraits>>,
     pub orientation: Orientation,
     pub remaining_x: u32,
     pub remaining_y: u32,
@@ -29,7 +29,7 @@ impl BarContainer {
         width: u32,
         left: u32,
         top: u32,
-        children: Vec<Box<dyn Component_Traits>>,
+        children: Vec<Box<dyn ComponentTraits>>,
         orientation: Orientation,
     ) -> BarContainer {
         let id = Uuid::new_v4();
@@ -65,7 +65,7 @@ impl BarContainer {
         left_to_change as u32
     }
 
-    pub fn add_to_children(&mut self, child: Box<dyn Component_Traits>) {
+    pub fn add_to_children(&mut self, child: Box<dyn ComponentTraits>) {
         match &self.orientation {
             HORIZONTAL => {
                 if (self.remaining_x - child.get_width() >= 0) {

@@ -9,26 +9,26 @@ pub trait Draw {
 }
 
 //get_width
-pub trait Get_Width {
+pub trait GetWidth {
     fn get_width(&self) -> u32;
 }
 
 //get_height
-pub trait Get_Height {
+pub trait GetHeight {
     fn get_height(&self) -> u32;
 }
 
 //set_left
-pub trait Set_Left {
+pub trait SetLeft {
     fn set_left(&mut self, value: u32);
 }
 
 //set_top
-pub trait Set_Top {
+pub trait SetTop {
     fn set_top(&mut self, value: u32);
 }
 
-pub trait Component_Traits: Draw + Get_Width + Get_Height + Set_Left + Set_Top {}
+pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop {}
 
 pub struct Style {
     pub color: Color,
@@ -109,10 +109,6 @@ impl BoxComponent {
             visible,
         }
     }
-
-    
-
-    
 }
 
 impl Draw for BoxComponent {
@@ -139,30 +135,30 @@ impl Draw for BoxComponent {
     }
 }
 
-impl Get_Height for BoxComponent {
+impl GetHeight for BoxComponent {
     fn get_height(&self) -> u32 {
         self.height
     }
 }
 
-impl Get_Width for BoxComponent {
+impl GetWidth for BoxComponent {
     fn get_width(&self) -> u32 {
         self.width
     }
 }
 
-impl Set_Left for BoxComponent {
+impl SetLeft for BoxComponent {
     fn set_left(&mut self, val: u32) {
         self.left = val;
     }
 }
 
-impl Set_Top for BoxComponent {
+impl SetTop for BoxComponent {
     fn set_top(&mut self, val: u32) {
         self.top = val;
     }
 }
 
-impl<T: Draw + Get_Height + Get_Width + Set_Left + Set_Top> Component_Traits for T {}
+impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop> ComponentTraits for T {}
 
 

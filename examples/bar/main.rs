@@ -49,7 +49,7 @@ fn build() {
         box_style_3,
         true,
     );
-    let children: Vec<Box<dyn Component_Traits>> = Vec::new();
+    let children: Vec<Box<dyn ComponentTraits>> = Vec::new();
     fn nothing() {}
     let mut bar: BarContainer = BarContainer::new(
         nothing,
