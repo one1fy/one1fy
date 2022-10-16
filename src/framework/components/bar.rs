@@ -9,7 +9,7 @@ pub enum Orientation {
 
 pub struct BarContainer {
     pub id: Uuid,
-    pub onLoad: fn(),
+    pub onLoad: Option<fn()>,
     pub visible: bool,
     pub height: u32,
     pub width: u32,
@@ -23,18 +23,27 @@ pub struct BarContainer {
 
 impl BarContainer {
     pub fn new(
-        onLoad: fn(),
+        onLoad: Option<fn()>,
         visible: bool,
         height: u32,
         width: u32,
         left: u32,
         top: u32,
-        children: Vec<Box<dyn ComponentTraits>>,
+        children: Option<Vec<Box<dyn ComponentTraits>>>,
         orientation: Orientation,
     ) -> BarContainer {
         let id = Uuid::new_v4();
         let rem_x = width;
         let rem_y = height;
+
+        let x: Vec<Box<dyn ComponentTraits>>;
+
+        if let None = children {
+            x = vec!();
+        } else {
+            x = children.unwrap();
+        }
+
         BarContainer {
             id: Uuid::new_v4(),
             onLoad: onLoad,
@@ -43,7 +52,7 @@ impl BarContainer {
             width: width,
             left: left,
             top: top,
-            children: children,
+            children: x,
             orientation: orientation,
             remaining_x: width,
             remaining_y: height,
@@ -100,12 +109,7 @@ impl BarContainer {
                 }
             }
         }
-        
     }
-
-    
-
-    
 }
 impl Draw for BarContainer{
     fn draw(&self, canvas: &mut Canvas) {
@@ -113,7 +117,6 @@ impl Draw for BarContainer{
             for child in self.children.iter() {
                 child.draw(canvas);
             }
-        }
-        
+        } 
     }
 }

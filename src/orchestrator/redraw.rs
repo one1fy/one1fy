@@ -2,8 +2,6 @@ use skia_safe::{ Color, Canvas, Rect, Color4f };
 use skia_safe::paint::{ Paint };
 
 use crate::components::*;
-// use crate::components::Draw;
-// use crate::components::BarContainer;
 
 fn draw_square(
     canvas: &mut Canvas,

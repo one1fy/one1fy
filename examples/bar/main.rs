@@ -50,15 +50,14 @@ fn build() {
         true,
     );
     let children: Vec<Box<dyn ComponentTraits>> = Vec::new();
-    fn nothing() {}
     let mut bar: BarContainer = BarContainer::new(
-        nothing,
+        None,
         true,
         375,
         667,
         0,
         0,
-        children,
+        Some(children),
         Orientation::HORIZONTAL,
     );
 
