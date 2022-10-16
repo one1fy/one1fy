@@ -137,10 +137,10 @@ impl SetTop for BarContainer {
 }
 
 impl Draw for BarContainer{
-    fn draw(&mut self, canvas: &mut Canvas) {
+    fn draw(&self, canvas: &mut Canvas) {
         if (self.visible) {
             for child in self.children.iter() {
-                //child.draw(canvas);
+                child.draw(canvas);
             }
         }
     }

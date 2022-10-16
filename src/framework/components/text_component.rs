@@ -44,7 +44,7 @@ impl TextComponent {
 }
 
 impl Draw for TextComponent {
-    fn draw(&mut self, canvas: &mut Canvas) {
+    fn draw(&self, canvas: &mut Canvas) {
         canvas.save();
 
         use skia_safe::{Font, FontStyle};
@@ -85,13 +85,14 @@ impl Draw for TextComponent {
             &paint,
         );
 
+        /*
         let alpha: u32 = 0xFF000000;
         self.color.color += 0x0F;
         if self.color.color == 0xFFFFFFFF {
             self.color.color = 0xFF000000;
         }
         self.color.color |= alpha;
-        // println!("color: {:#08X}", self.color.color);
+        */
     }
 }
 
