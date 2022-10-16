@@ -16,8 +16,8 @@ skia-safe = "0.53.0"
 glutin = "0.29"
 gl = "0.14.0"
 
-[target.'cfg(target_os = "macos")']
-cocoa = "0.24.0"
+[target.'cfg(macos)'.dependencies]
+cocoa = { version = "0.24.0"}
 core-graphics-types = "0.1.1"
 rand = "0.8.4"
 foreign-types-shared = "0.1.1"
