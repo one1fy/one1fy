@@ -10,12 +10,12 @@ use skia_safe::font_style::Weight;
 use skia_safe::font_style::Width;
 use skia_safe::wrapper::ValueWrapper;
 
-use super::Component_Traits;
+use super::ComponentTraits;
 use super::Draw;
-use super::Get_Height;
-use super::Get_Width;
-use super::Set_Left;
-use super::Set_Top;
+use super::GetHeight;
+use super::GetWidth;
+use super::SetLeft;
+use super::SetTop;
 
 pub struct TextComponent {
     pub left: u32,
@@ -95,24 +95,24 @@ impl Draw for TextComponent {
     }
 }
 
-impl Get_Width for TextComponent {
+impl GetWidth for TextComponent {
     fn get_width(&self) -> u32 {
         return 0;
     }
 }
 
-impl Get_Height for TextComponent {
+impl GetHeight for TextComponent {
     fn get_height(&self) -> u32 {
         return 0;
     }
 }
 
-impl Set_Left for TextComponent {
+impl SetLeft for TextComponent {
     fn set_left(&mut self, value: u32) {
     }
 }
 
-impl Set_Top for TextComponent {
+impl SetTop for TextComponent {
     fn set_top(&mut self, value: u32) {
     }
 }

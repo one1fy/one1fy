@@ -2,8 +2,6 @@ use skia_safe::{ Color, Canvas, Rect, Color4f };
 use skia_safe::paint::{ Paint };
 
 use crate::components::*;
-// use crate::components::Draw;
-// use crate::components::BarContainer;
 
 fn draw_square(
     canvas: &mut Canvas,
@@ -32,7 +30,7 @@ fn draw_square(
     canvas.restore();
 }
 
-pub fn handle_redraw(canvas: &mut Canvas, tree: &mut Box<dyn Component_Traits>) {
+pub fn handle_redraw(canvas: &mut Canvas, tree: &mut Box<dyn ComponentTraits>) {
     canvas.clear(Color::WHITE);
     tree.draw(canvas);
 }

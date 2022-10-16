@@ -10,7 +10,7 @@ pub mod macos;
 #[cfg(feature = "macos")]
 pub use macos::start_event_loop;
 
-use crate::components::Component_Traits;
+use crate::components::ComponentTraits;
 #[cfg(not(any(feature = "windows", feature = "macos")))]
 pub fn start_event_loop(tree: &dyn Component_Traits) {
     println!("You need to specify your target OS");

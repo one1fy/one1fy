@@ -49,16 +49,15 @@ fn build() {
         box_style_3,
         true,
     );
-    let children: Vec<Box<dyn Component_Traits>> = Vec::new();
-    fn nothing() {}
+    let children: Vec<Box<dyn ComponentTraits>> = Vec::new();
     let mut bar: BarContainer = BarContainer::new(
-        nothing,
+        None,
         true,
         375,
         667,
         0,
         0,
-        children,
+        Some(children),
         Orientation::HORIZONTAL,
     );
 
@@ -66,5 +65,5 @@ fn build() {
     bar.add_to_children(Box::new(red_box_2));
     bar.add_to_children(Box::new(red_box_3));
 
-    run_app(bar);
+    run_app(Box::<BarContainer>::new(bar));
 }

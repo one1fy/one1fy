@@ -1,4 +1,4 @@
-use one1fy::components::Component_Traits;
+use one1fy::components::ComponentTraits;
 use one1fy::framework::*;
 use one1fy::framework::components::{
     BoxComponent,
@@ -20,7 +20,7 @@ fn build() {
     let text: String = "hello world".to_string();
     let color: Color = Color::from_hex(0xFF0000);
     let component: TextComponent = TextComponent::new(0, 0, 10, text, color);
-    let tree: Box<dyn Component_Traits> = Box::new(component);
+    let tree: Box<dyn ComponentTraits> = Box::new(component);
 
     run_app(tree);
 }

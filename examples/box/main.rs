@@ -19,14 +19,14 @@ fn build() {
         Color::from_hex(0xff00ff),
     );
 
-    let red_box: BoxComponent = BoxComponent::new(
+    let red_box: Box<BoxComponent> = Box::<BoxComponent>::new(BoxComponent::new(
         0,
         0,
         100,
         100,
         box_style,
         true
-    );
+    ));
 
     run_app(red_box);
 }

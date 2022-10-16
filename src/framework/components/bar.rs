@@ -9,13 +9,13 @@ pub enum Orientation {
 
 pub struct BarContainer {
     pub id: Uuid,
-    pub onLoad: fn(),
+    pub onLoad: Option<fn()>,
     pub visible: bool,
     pub height: u32,
     pub width: u32,
     pub left: u32,
     pub top: u32,
-    pub children: Vec<Box<dyn Component_Traits>>,
+    pub children: Vec<Box<dyn ComponentTraits>>,
     pub orientation: Orientation,
     pub remaining_x: u32,
     pub remaining_y: u32,
@@ -23,18 +23,27 @@ pub struct BarContainer {
 
 impl BarContainer {
     pub fn new(
-        onLoad: fn(),
+        onLoad: Option<fn()>,
         visible: bool,
         height: u32,
         width: u32,
         left: u32,
         top: u32,
-        children: Vec<Box<dyn Component_Traits>>,
+        children: Option<Vec<Box<dyn ComponentTraits>>>,
         orientation: Orientation,
     ) -> BarContainer {
         let id = Uuid::new_v4();
         let rem_x = width;
         let rem_y = height;
+
+        let x: Vec<Box<dyn ComponentTraits>>;
+
+        if let None = children {
+            x = vec!();
+        } else {
+            x = children.unwrap();
+        }
+
         BarContainer {
             id: Uuid::new_v4(),
             onLoad: onLoad,
@@ -43,7 +52,7 @@ impl BarContainer {
             width: width,
             left: left,
             top: top,
-            children: children,
+            children: x,
             orientation: orientation,
             remaining_x: width,
             remaining_y: height,
@@ -65,7 +74,7 @@ impl BarContainer {
         left_to_change as u32
     }
 
-    pub fn add_to_children(&mut self, child: Box<dyn Component_Traits>) {
+    pub fn add_to_children(&mut self, child: Box<dyn ComponentTraits>) {
         match &self.orientation {
             HORIZONTAL => {
                 if (self.remaining_x - child.get_width() >= 0) {
@@ -100,13 +109,33 @@ impl BarContainer {
                 }
             }
         }
-
     }
-
-
-
-
 }
+
+impl GetHeight for BarContainer {
+    fn get_height(&self) -> u32 {
+        self.height
+    }
+}
+
+impl GetWidth for BarContainer {
+    fn get_width(&self) -> u32 {
+        self.width
+    }
+}
+
+impl SetLeft for BarContainer {
+    fn set_left(&mut self, value: u32) {
+        self.left = value;
+    }
+}
+
+impl SetTop for BarContainer {
+    fn set_top(&mut self, value: u32) {
+        self.top = value;
+    }
+}
+
 impl Draw for BarContainer{
     fn draw(&mut self, canvas: &mut Canvas) {
         if (self.visible) {
@@ -114,6 +143,5 @@ impl Draw for BarContainer{
                 //child.draw(canvas);
             }
         }
-
     }
 }
