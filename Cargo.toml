@@ -6,10 +6,25 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
-default = ["windows"]
 windows = ["skia-safe/gl", "skia-safe/d3d"]
+macos = ["skia-safe/gl", "skia-safe/metal"]
 
 [dependencies]
 skia-safe = "0.53.0"
 glutin = "0.29"
 gl = "0.14.0"
+cocoa = "0.24.0"
+core-graphics-types = "0.1.1"
+rand = "0.8.4"
+foreign-types-shared = "0.1.1"
+winit = "0.27.0"
+objc = "0.2.7"
+metal-rs = { package = "metal", version = "0.23.1" }
+
+[dependencies.uuid]
+version = "1.1.2"
+features = [
+    "v4",                # Lets you generate random UUIDs
+    "fast-rng",          # Use a faster (but still sufficiently random) RNG
+    "macro-diagnostics", # Enable better diagnostics for compile-time UUIDs
+]
