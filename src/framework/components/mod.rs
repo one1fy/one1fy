@@ -1,8 +1,15 @@
 use skia_safe::{ Canvas, Rect, Color4f };
 use skia_safe::paint::{ Paint };
+use uuid::Uuid;
 
 pub mod bar;
 pub use bar::BarContainer;
+
+pub enum Type {
+    BOX,
+    CONTAINER,
+    TEXT
+}
 
 pub trait Draw {
     fn draw(&self, canvas: &mut Canvas);
@@ -28,7 +35,21 @@ pub trait SetTop {
     fn set_top(&mut self, value: u32);
 }
 
-pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop {}
+pub trait GetType {
+    fn get_type(&self) -> Option<Type> {
+        println!("This component has no type");
+        None
+    }
+}
+
+pub trait Find {
+    fn find(&mut self, x: u32, y: u32) -> Option<Uuid> {
+        println!("Component has no find function defined.");
+        None
+    }
+}
+
+pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop + GetType + Find {}
 
 pub struct Style {
     pub color: Color,
@@ -83,12 +104,15 @@ impl Color {
 }
 
 pub struct BoxComponent {
+    pub id: Uuid,
     pub left: u32,
     pub top: u32,
     pub height: u32,
     pub width: u32,
     pub style: Style,
     pub visible: bool,
+    pub componentType: Type,
+    pub onClick: Option<fn()>
 }
 
 impl BoxComponent {
@@ -99,14 +123,18 @@ impl BoxComponent {
         width: u32,
         style: Style,
         visible: bool,
+        onCl: Option<fn()>
     ) -> BoxComponent {
         BoxComponent {
+            id: Uuid::new_v4(),
             left,
             top,
             height,
             width,
             style,
             visible,
+            componentType: Type::BOX,
+            onClick: onCl,
         }
     }
 }
@@ -135,6 +163,23 @@ impl Draw for BoxComponent {
     }
 }
 
+impl Find for BoxComponent {
+    fn find(&mut self, x: u32, y: u32) -> Option<Uuid> {
+        let right = self.left + self.width;
+        let bottom = self.top + self.height;
+        if x >= self.left && x <= right && y >= self.top && y <= bottom && self.visible {
+            if self.onClick.is_some() {
+                let f = self.onClick.unwrap();
+                f();
+            }
+            return Some(self.id);
+        }
+        else {
+            return None;
+        }
+    }
+}
+
 impl GetHeight for BoxComponent {
     fn get_height(&self) -> u32 {
         self.height
@@ -159,6 +204,12 @@ impl SetTop for BoxComponent {
     }
 }
 
-impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop> ComponentTraits for T {}
+impl GetType for BoxComponent {
+    fn get_type(&self) -> Option<Type> {
+        Some(Type::BOX)
+    }
+}
+
+impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop + GetType + Find> ComponentTraits for T {}
 
 

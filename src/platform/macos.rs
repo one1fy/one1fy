@@ -1,6 +1,5 @@
 use crate::orchestrator::redraw::handle_redraw;
 use crate::orchestrator::event::click::handle_click;
-use crate::components::BoxComponent;
 use crate::components::BarContainer;
 
 #[cfg(feature = "macos")]
@@ -106,7 +105,7 @@ pub fn start_event_loop(mut tree: BarContainer) {
                     modifiers: _,
                     ..
                 } => {
-                    handle_click(last_position, state, button)
+                    handle_click(last_position, state, button, &mut tree)
                 }
                 _ => (),
             },

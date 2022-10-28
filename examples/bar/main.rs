@@ -10,6 +10,10 @@ fn main() {
     build();
 }
 
+pub fn onClick() {
+    println!("I am a box and I have been clicked");
+}
+
 fn build() {
     let box_style_1: Style = Style::new(
         Color::from_hex(0xff00ff),
@@ -22,6 +26,7 @@ fn build() {
         100,
         box_style_1,
         true,
+        Some(onClick),
     );
 
     let box_style_2: Style = Style::new(
@@ -35,6 +40,7 @@ fn build() {
         100,
         box_style_2,
         true,
+        Some(onClick)
     );
 
     let box_style_3: Style = Style::new(
@@ -48,6 +54,7 @@ fn build() {
         100,
         box_style_3,
         true,
+        Some(onClick)
     );
     let children: Vec<Box<dyn ComponentTraits>> = Vec::new();
     let mut bar: BarContainer = BarContainer::new(
