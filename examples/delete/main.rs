@@ -4,6 +4,8 @@ use one1fy::framework::components::*;
 
 use one1fy::framework::components::bar::Orientation;
 
+use uuid::Uuid;
+
 
 #[cfg(any(feature = "windows", feature = "macos"))]
 fn main() {
@@ -16,9 +18,21 @@ fn build() {
         Color::from_hex(0xff00ff),
     );
 
-    fn oncl() {
-        println!("what is up");
-    }
+    let children: Vec<Box<dyn ComponentTraits>> = Vec::new();
+    let mut bar: BarContainer = BarContainer::new(
+        None,
+        true,
+        375,
+        667,
+        0,
+        0,
+        Some(children),
+        Orientation::HORIZONTAL,
+    );
+
+    // let mut onCl = |id: Uuid| {
+    //     bar.remove(id);
+    // };
 
     
     let mut red_box_1: BoxComponent = BoxComponent::new(
@@ -28,7 +42,10 @@ fn build() {
         100,
         box_style_1,
         true,
-        Some(oncl));
+        Box::new(|&mut self| {
+            self.visible = false;
+        }),
+    );
 
     let box_style_2: Style = Style::new(
         Color::from_hex(0x00ffff),
@@ -41,7 +58,9 @@ fn build() {
         100,
         box_style_2,
         true,
-        Some(oncl),
+        Box::new(|&mut self| {
+            self.visible = false;
+        }),
     );
 
     let mut box_style_3: Style = Style::new(
@@ -56,20 +75,12 @@ fn build() {
         100,
         box_style_3,
         true,
-        Some(oncl)
+        Box::new(|&mut self| {
+            self.visible = false;
+        }),
     );
 
-    let children: Vec<Box<dyn ComponentTraits>> = Vec::new();
-    let mut bar: BarContainer = BarContainer::new(
-        None,
-        true,
-        375,
-        667,
-        0,
-        0,
-        Some(children),
-        Orientation::HORIZONTAL,
-    );
+    
 
     bar.add_to_children(Box::new(red_box_1));
     bar.add_to_children(Box::new(red_box_2));

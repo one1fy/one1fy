@@ -35,6 +35,12 @@ pub trait SetTop {
     fn set_top(&mut self, value: u32);
 }
 
+pub trait SetOnClick {
+    fn set_onClick(&mut self, func: Box<dyn FnMut(Uuid)>) {
+        println!("this component does not support onClick!");
+    }
+}
+
 pub trait GetType {
     fn get_type(&self) -> Option<Type> {
         println!("This component has no type");
@@ -49,7 +55,13 @@ pub trait Find {
     }
 }
 
-pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop + GetType + Find {}
+pub trait Remove {
+    fn remove(&mut self, id: Uuid) -> bool {
+        false
+    }
+}
+
+pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop + GetType + Find + Remove + SetOnClick {}
 
 pub struct Style {
     pub color: Color,
@@ -112,7 +124,7 @@ pub struct BoxComponent {
     pub style: Style,
     pub visible: bool,
     pub componentType: Type,
-    pub onClick: Option<fn()>
+    pub onClick: Box<dyn FnMut(Uuid)>,
 }
 
 impl BoxComponent {
@@ -123,7 +135,7 @@ impl BoxComponent {
         width: u32,
         style: Style,
         visible: bool,
-        onCl: Option<fn()>
+        onCl: Box<dyn FnMut(Uuid)>
     ) -> BoxComponent {
         BoxComponent {
             id: Uuid::new_v4(),
@@ -168,14 +180,26 @@ impl Find for BoxComponent {
         let right = self.left + self.width;
         let bottom = self.top + self.height;
         if x >= self.left && x <= right && y >= self.top && y <= bottom && self.visible {
-            if self.onClick.is_some() {
-                let f = self.onClick.unwrap();
-                f();
-            }
+            // if self.onClick.is_some() {
+                
+            // }
+            let f = &mut self.onClick;
+            f(self.id);
             return Some(self.id);
         }
         else {
             return None;
+        }
+    }
+}
+
+impl Remove for BoxComponent {
+    fn remove(&mut self, id: Uuid) -> bool {
+        if id == self.id {
+            true
+        }
+        else {
+            false
         }
     }
 }
@@ -204,12 +228,18 @@ impl SetTop for BoxComponent {
     }
 }
 
+impl SetOnClick for BoxComponent {
+    fn set_onClick(&mut self, func: Box<dyn FnMut(Uuid)>) {
+        self.onClick = func;
+    }
+}
+
 impl GetType for BoxComponent {
     fn get_type(&self) -> Option<Type> {
         Some(Type::BOX)
     }
 }
 
-impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop + GetType + Find> ComponentTraits for T {}
+impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop + GetType + Find + Remove + SetOnClick> ComponentTraits for T {}
 
 

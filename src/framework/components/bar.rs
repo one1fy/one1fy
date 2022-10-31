@@ -108,6 +108,35 @@ impl BarContainer {
             }
         }
     }
+
+    pub fn remove_from_children(&mut self, index: u32) {
+        let toRemove = &mut self.children[index as usize];
+        
+        match &self.orientation {
+            HORIZONTAL => {
+                self.remaining_x = self.remaining_x + toRemove.get_width();
+                self.children.remove(index as usize);
+                let size = self.children.len() as u32;
+                for i in 0..self.children.len() {
+                    let cur = &mut self.children[i];
+                    //TODO: build setters for box
+                    cur.set_left((BarContainer::calculate_coordinate(self.width, size, i as u32, cur.get_width())));
+                    cur.set_top(self.height / 2 - cur.get_height() / 2);
+                }
+            },
+            VERTICAL => {
+                self.remaining_y = self.remaining_y + toRemove.get_height();
+                self.children.remove(index as usize);
+                let size = self.children.len() as u32;
+                for i in 0..self.children.len() {
+                    let cur = &mut self.children[i];
+                    //TODO: build setters for box
+                    cur.set_top((BarContainer::calculate_coordinate(self.height, size, i as u32, cur.get_height())));
+                    cur.set_left((self.width / 2 - cur.get_width() / 2));
+                }
+            }
+        }
+    }
 }
 impl Draw for BarContainer{
     fn draw(&self, canvas: &mut Canvas) {
@@ -132,6 +161,27 @@ impl Find for BarContainer {
             }
         }
         None
+    }
+}
+
+impl Remove for BarContainer {
+    fn remove(&mut self, id: Uuid) -> bool {
+        if self.id == id {
+            return true;
+        }
+        else {
+            for i in 0..self.children.len() {
+                let cur = &mut self.children[i];
+                let val = cur.remove(id);
+                if val {
+                    self.remove_from_children(i as u32);
+                    return false;
+                }
+    
+            }
+            return false;
+        }
+        
     }
 }
 
@@ -164,3 +214,4 @@ impl GetType for BarContainer {
         Some(Type::CONTAINER)
     }
 }
+
