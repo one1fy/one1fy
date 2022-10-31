@@ -40,7 +40,7 @@ fn build() {
         Color::from_hex(0x0000ff),
     );
 
-    let red_box_3: BoxComponent = BoxComponent::new(
+    let mut red_box_3: BoxComponent = BoxComponent::new(
         0,
         0,
         100,
