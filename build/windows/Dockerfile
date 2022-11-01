@@ -101,9 +101,28 @@ RUN cmake -GNinja `
 # Build clang
 RUN ninja clang
 
-# FROM mcr.microsoft.com/windows/servercore:ltsc2019 AS clang
-# "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\VsDevCmd.bat" -host_arch=amd64 -arch=amd64 && powershell.exe -NoLogo -ExecutionPolicy Bypass
+# Make new build stage clang
+FROM mcr.microsoft.com/windows/servercore:ltsc2019 AS clang
+
+# Use powershell as the shell
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+# Save the location of VS as a build environment variable
+ARG vs="C:\Program Files (x86)\Microsoft Visual Studio"
+
+# Copy Visual Studio Build Tools 2022
+COPY --from=build ${vs} ${vs}
+
+# Copy the compiled binaries
+COPY --from=build C:\llvm-project\build\bin C:\llvm\bin
+
+# Add clang to PATH
+RUN setx /M PATH $($Env:PATH + ';C:\llvm\bin')
+
+# Copy Docker VS Dev Tools Shell Helper
+COPY shell.bat .
 
 # Define the entry point for the docker container.
 # This entry point starts the developer command prompt and launches the PowerShell shell.
 ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat", "-host_arch=amd64", "-arch=amd64", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
+# ENTRYPOINT ["powershell.exe"]
