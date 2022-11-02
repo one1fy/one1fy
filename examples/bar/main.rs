@@ -13,17 +13,17 @@ use uuid::Uuid;
 
 pub struct MyBox {
     pub child: Rc<RefCell<dyn ComponentTraits>>,
-    pub parent: Rc<RefCell<dyn ComponentTraits>>,
+    // pub parent: Rc<RefCell<dyn ComponentTraits>>,
 }
 
 impl MyBox {
     pub fn new(
         child: Rc<RefCell<dyn ComponentTraits>>,
-        parent: Rc<RefCell<dyn ComponentTraits>>,
+        //parent: Rc<RefCell<dyn ComponentTraits>>,
     ) -> MyBox {
         MyBox {
             child,
-            parent,
+            //parent,
         }
     }
 }
@@ -36,7 +36,16 @@ impl Draw for MyBox {
 
 impl Find for MyBox {
     fn find(&mut self, x: u32, y: u32) -> Option<Uuid> {
-        self.child.borrow_mut().find(x,y)
+        println!("searching...");
+        let ret = self.child.borrow_mut().find(x,y);
+        if let None = ret {
+            None
+        }
+        else {
+            self.on_click();
+            ret
+        }
+        
     }
 }
 
@@ -72,6 +81,15 @@ impl GetType for MyBox {
 
 impl OnClick for MyBox {
     fn on_click(&mut self) {
+        println!("this is the mybox onclick");
+        self.child.borrow_mut().toggle_visible();
+    }
+}
+
+impl Remove for MyBox {}
+
+impl ToggleVisible for MyBox {
+    fn toggle_visible(&mut self) {
         self.child.borrow_mut().toggle_visible();
     }
 }
@@ -84,13 +102,22 @@ fn main() {
 
 
 fn build() {
+
+    let children: Vec<Box<dyn ComponentTraits>> = Vec::new();
+    let mut bar: BarContainer = BarContainer::new(
+        None,
+        true,
+        375,
+        667,
+        0,
+        0,
+        Some(children),
+        Orientation::HORIZONTAL,
+    );
+
     let box_style_1: Style = Style::new(
         Color::from_hex(0xff00ff),
     );
-
-    fn oncl() {
-        println!("what is up");
-    }
 
     
     let mut red_box_1: BoxComponent = BoxComponent::new(
@@ -100,7 +127,6 @@ fn build() {
         100,
         box_style_1,
         true,
-        None,
     );
 
     let box_style_2: Style = Style::new(
@@ -114,7 +140,6 @@ fn build() {
         100,
         box_style_2,
         true,
-        None,
     );
 
     let mut box_style_3: Style = Style::new(
@@ -129,23 +154,11 @@ fn build() {
         100,
         box_style_3,
         true,
-        None
     );
 
-    let children: Vec<Box<dyn ComponentTraits>> = Vec::new();
-    let mut bar: BarContainer = BarContainer::new(
-        None,
-        true,
-        375,
-        667,
-        0,
-        0,
-        Some(children),
-        Orientation::HORIZONTAL,
-    );
-    let mb1 = MyBox::new(Rc::new(RefCell::new(bar)), Rc::new(RefCell::new(red_box_1)));
-    let mb2 = MyBox::new(Rc::new(RefCell::new(bar)), Rc::new(RefCell::new(red_box_2)));
-    let mb3 = MyBox::new(Rc::new(RefCell::new(bar)), Rc::new(RefCell::new(red_box_3)));
+    let mb1 = MyBox::new(Rc::new(RefCell::new(red_box_1)));
+    let mb2 = MyBox::new(Rc::new(RefCell::new(red_box_2)));
+    let mb3 = MyBox::new(Rc::new(RefCell::new(red_box_3)));
 
     bar.add_to_children(Box::new(mb1));
     bar.add_to_children(Box::new(mb2));

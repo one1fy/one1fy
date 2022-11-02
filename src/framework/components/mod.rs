@@ -135,7 +135,6 @@ pub struct BoxComponent {
     pub style: Style,
     pub visible: bool,
     pub componentType: Type,
-    pub parent: Rc<RefCell<dyn ComponentTraits>>,
 }
 
 impl BoxComponent {
@@ -146,7 +145,6 @@ impl BoxComponent {
         width: u32,
         style: Style,
         visible: bool,
-        parent: Rc<RefCell<dyn ComponentTraits>>
     ) -> BoxComponent {
         BoxComponent {
             id: Uuid::new_v4(),
@@ -157,7 +155,6 @@ impl BoxComponent {
             style,
             visible,
             componentType: Type::BOX,
-            parent,
         }
     }
 }
@@ -191,11 +188,7 @@ impl Find for BoxComponent {
         let right = self.left + self.width;
         let bottom = self.top + self.height;
         if x >= self.left && x <= right && y >= self.top && y <= bottom && self.visible {
-            // if self.onClick.is_some() {
-                
-            // }
-            //let f = &mut self.onClick;
-            //f(self.id);
+            self.on_click();
             return Some(self.id);
         }
         else {
@@ -256,6 +249,8 @@ impl GetType for BoxComponent {
         Some(Type::BOX)
     }
 }
+
+impl OnClick for BoxComponent {}
 
 impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop + GetType + Find + Remove + OnClick + ToggleVisible> ComponentTraits for T {}
 

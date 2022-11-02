@@ -1,6 +1,7 @@
 use uuid::Uuid;
 use skia_safe::{ Canvas };
 use crate::components::*;
+use std::{cell::RefCell, rc::Rc};
 
 pub enum Orientation {
     HORIZONTAL,
@@ -20,7 +21,6 @@ pub struct BarContainer {
     pub remaining_x: u32,
     pub remaining_y: u32,
     pub componentType: Type,
-    pub parent: Box<dyn ComponentTraits>,
 }
 
 impl BarContainer {
@@ -33,7 +33,6 @@ impl BarContainer {
         top: u32,
         children: Option<Vec<Box<dyn ComponentTraits>>>,
         orientation: Orientation,
-        parent: Box<dyn ComponentTraits>,
     ) -> BarContainer {
         let id = Uuid::new_v4();
         let rem_x = width;
@@ -60,7 +59,6 @@ impl BarContainer {
             remaining_x: width,
             remaining_y: height,
             componentType: Type::CONTAINER,
-            parent,
         }
         
     }
@@ -224,5 +222,8 @@ impl GetType for BarContainer {
         Some(Type::CONTAINER)
     }
 }
+
+impl OnClick for BarContainer {}
+ 
 
 
