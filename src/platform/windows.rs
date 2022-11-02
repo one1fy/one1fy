@@ -19,7 +19,6 @@ pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
         ColorType,
         Surface,
     };
-    use tokio::*;
 
     const WIDTH: f64 = 375.0;
     const HEIGHT: f64 = 667.0;
@@ -126,6 +125,8 @@ pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
         let url = res.url();
 
         println!("URL: {}", url);
+
+        open::that("https://purdue.edu").unwrap();
 
         Ok(())
     }
