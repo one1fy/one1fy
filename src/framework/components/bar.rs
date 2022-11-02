@@ -224,6 +224,8 @@ impl GetType for BarContainer {
 }
 
 impl OnClick for BarContainer {}
+
+impl SetStyle for BarContainer {}
  
 
 

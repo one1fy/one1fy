@@ -19,7 +19,7 @@ pub fn start_event_loop(mut tree: BarContainer) {
 
     use winit::{
         dpi::{LogicalSize, PhysicalPosition},
-        event::{Event, WindowEvent, KeyboardInput},
+        event::{Event, WindowEvent, KeyboardInput, ElementState},
         event_loop::{ControlFlow, EventLoop},
         platform::macos::WindowExtMacOS,
         window::WindowBuilder,
@@ -105,7 +105,10 @@ pub fn start_event_loop(mut tree: BarContainer) {
                     modifiers: _,
                     ..
                 } => {
-                    handle_click(last_position, state, button, &mut tree)
+                    if state == ElementState::Pressed {
+                        handle_click(last_position, state, button, &mut tree)
+                    }
+                    
                 }
                 _ => (),
             },

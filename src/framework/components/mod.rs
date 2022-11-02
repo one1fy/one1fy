@@ -36,6 +36,12 @@ pub trait SetTop {
     fn set_top(&mut self, value: u32);
 }
 
+pub trait SetStyle {
+    fn set_style(&mut self, style: Style) {
+
+    }
+}
+
 pub trait GetType {
     fn get_type(&self) -> Option<Type> {
         println!("This component has no type");
@@ -72,7 +78,7 @@ pub trait ToggleVisible {
 //     fn get_mut_parent(&mut self) -> &mut Box<dyn ComponentTraits>;
 // }
 
-pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop + GetType + Find + Remove + OnClick + ToggleVisible {}
+pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop + GetType + Find + Remove + OnClick + ToggleVisible + SetStyle {}
 
 pub struct Style {
     pub color: Color,
@@ -252,6 +258,12 @@ impl GetType for BoxComponent {
 
 impl OnClick for BoxComponent {}
 
-impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop + GetType + Find + Remove + OnClick + ToggleVisible> ComponentTraits for T {}
+impl SetStyle for BoxComponent {
+    fn set_style(&mut self, style: Style) {
+        self.style = style;
+    }
+}
+
+impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop + GetType + Find + Remove + OnClick + ToggleVisible + SetStyle> ComponentTraits for T {}
 
 

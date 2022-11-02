@@ -10,6 +10,7 @@ use skia_safe::paint::{ Paint };
 use std::{cell::RefCell, rc::Rc};
 
 use uuid::Uuid;
+use rand::Rng;
 
 pub struct MyBox {
     pub child: Rc<RefCell<dyn ComponentTraits>>,
@@ -81,8 +82,9 @@ impl GetType for MyBox {
 
 impl OnClick for MyBox {
     fn on_click(&mut self) {
-        println!("this is the mybox onclick");
-        self.child.borrow_mut().toggle_visible();
+        let num = rand::thread_rng().gen_range(0..0xffffffff);
+        let style: Style = Style::new(Color::from_hex(num));
+        self.child.borrow_mut().set_style(style);
     }
 }
 
@@ -91,6 +93,12 @@ impl Remove for MyBox {}
 impl ToggleVisible for MyBox {
     fn toggle_visible(&mut self) {
         self.child.borrow_mut().toggle_visible();
+    }
+}
+
+impl SetStyle for MyBox {
+    fn set_style(&mut self, style: Style) {
+        self.child.borrow_mut().set_style(style);
     }
 }
 
