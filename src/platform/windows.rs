@@ -116,11 +116,9 @@ pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
     };
 
     let mut last_postition = PhysicalPosition::<f64>::new(0.0, 0.0);
-    
-    use std::collections::HashMap;
 
     #[tokio::main]
-    async fn main() -> Result<(), reqwest::Error> {
+    async fn send_request() -> Result<(), reqwest::Error> {
         let res = reqwest::get("https://purdue.edu").await?;
 
         println!("Status: {}", res.status());
@@ -173,7 +171,7 @@ pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
                 } => {
                     if state == ElementState::Pressed {
                         handle_click(last_postition, state, button);
-                        main();
+                        send_request();
                     }
                 }
                 _ => (),
