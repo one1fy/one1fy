@@ -20,6 +20,7 @@ pub struct BarContainer {
     pub remaining_x: u32,
     pub remaining_y: u32,
     pub componentType: Type,
+    pub parent: Box<dyn ComponentTraits>,
 }
 
 impl BarContainer {
@@ -32,6 +33,7 @@ impl BarContainer {
         top: u32,
         children: Option<Vec<Box<dyn ComponentTraits>>>,
         orientation: Orientation,
+        parent: Box<dyn ComponentTraits>,
     ) -> BarContainer {
         let id = Uuid::new_v4();
         let rem_x = width;
@@ -58,6 +60,7 @@ impl BarContainer {
             remaining_x: width,
             remaining_y: height,
             componentType: Type::CONTAINER,
+            parent,
         }
         
     }
@@ -139,9 +142,10 @@ impl BarContainer {
     }
 }
 impl Draw for BarContainer{
-    fn draw(&self, canvas: &mut Canvas) {
-        if (self.visible) {
-            for child in self.children.iter() {
+    fn draw(&mut self, canvas: &mut Canvas) {
+        let imm = &*self;
+        if self.visible {
+            for child in self.children.iter_mut() {
                 child.draw(canvas);
             }
         } 
@@ -185,6 +189,12 @@ impl Remove for BarContainer {
     }
 }
 
+impl ToggleVisible for BarContainer {
+    fn toggle_visible(&mut self) {
+        self.visible = !self.visible;
+    }
+}
+
 impl GetHeight for BarContainer {
     fn get_height(&self) -> u32 {
         self.height
@@ -214,4 +224,5 @@ impl GetType for BarContainer {
         Some(Type::CONTAINER)
     }
 }
+
 

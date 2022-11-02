@@ -1,6 +1,7 @@
 use skia_safe::{ Canvas, Rect, Color4f };
 use skia_safe::paint::{ Paint };
 use uuid::Uuid;
+use std::{cell::RefCell, rc::Rc};
 
 pub mod bar;
 pub use bar::BarContainer;
@@ -12,7 +13,7 @@ pub enum Type {
 }
 
 pub trait Draw {
-    fn draw(&self, canvas: &mut Canvas);
+    fn draw(&mut self, canvas: &mut Canvas);
 }
 
 //get_width
@@ -35,12 +36,6 @@ pub trait SetTop {
     fn set_top(&mut self, value: u32);
 }
 
-pub trait SetOnClick {
-    fn set_onClick(&mut self, func: Box<dyn FnMut(Uuid)>) {
-        println!("this component does not support onClick!");
-    }
-}
-
 pub trait GetType {
     fn get_type(&self) -> Option<Type> {
         println!("This component has no type");
@@ -61,7 +56,23 @@ pub trait Remove {
     }
 }
 
-pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop + GetType + Find + Remove + SetOnClick {}
+pub trait OnClick {
+    fn on_click(&mut self) {
+        println!("");
+    }
+}
+
+pub trait ToggleVisible {
+    fn toggle_visible(&mut self) {
+        print!("");
+    }
+}
+
+// pub trait GetMutParent {
+//     fn get_mut_parent(&mut self) -> &mut Box<dyn ComponentTraits>;
+// }
+
+pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop + GetType + Find + Remove + OnClick + ToggleVisible {}
 
 pub struct Style {
     pub color: Color,
@@ -124,7 +135,7 @@ pub struct BoxComponent {
     pub style: Style,
     pub visible: bool,
     pub componentType: Type,
-    pub onClick: Box<dyn FnMut(Uuid)>,
+    pub parent: Rc<RefCell<dyn ComponentTraits>>,
 }
 
 impl BoxComponent {
@@ -135,7 +146,7 @@ impl BoxComponent {
         width: u32,
         style: Style,
         visible: bool,
-        onCl: Box<dyn FnMut(Uuid)>
+        parent: Rc<RefCell<dyn ComponentTraits>>
     ) -> BoxComponent {
         BoxComponent {
             id: Uuid::new_v4(),
@@ -146,14 +157,14 @@ impl BoxComponent {
             style,
             visible,
             componentType: Type::BOX,
-            onClick: onCl,
+            parent,
         }
     }
 }
 
 impl Draw for BoxComponent {
-    fn draw(&self, canvas: &mut Canvas) {
-        if (self.visible) {
+    fn draw(&mut self, canvas: &mut Canvas) {
+        if self.visible {
             canvas.save();
             let right = self.left + self.width;
             let bottom = self.top + self.height;
@@ -183,8 +194,8 @@ impl Find for BoxComponent {
             // if self.onClick.is_some() {
                 
             // }
-            let f = &mut self.onClick;
-            f(self.id);
+            //let f = &mut self.onClick;
+            //f(self.id);
             return Some(self.id);
         }
         else {
@@ -204,6 +215,12 @@ impl Remove for BoxComponent {
     }
 }
 
+impl ToggleVisible for BoxComponent {
+    fn toggle_visible(&mut self) {
+        self.visible = !self.visible;
+    }
+}
+
 impl GetHeight for BoxComponent {
     fn get_height(&self) -> u32 {
         self.height
@@ -215,6 +232,12 @@ impl GetWidth for BoxComponent {
         self.width
     }
 }
+
+// impl GetMutParent for BoxComponent {
+//     fn get_mut_parent(&mut self) -> &mut Box<dyn ComponentTraits> {
+//         return &mut self.parent;
+//     }
+// }
 
 impl SetLeft for BoxComponent {
     fn set_left(&mut self, val: u32) {
@@ -228,18 +251,12 @@ impl SetTop for BoxComponent {
     }
 }
 
-impl SetOnClick for BoxComponent {
-    fn set_onClick(&mut self, func: Box<dyn FnMut(Uuid)>) {
-        self.onClick = func;
-    }
-}
-
 impl GetType for BoxComponent {
     fn get_type(&self) -> Option<Type> {
         Some(Type::BOX)
     }
 }
 
-impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop + GetType + Find + Remove + SetOnClick> ComponentTraits for T {}
+impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop + GetType + Find + Remove + OnClick + ToggleVisible> ComponentTraits for T {}
 
 
