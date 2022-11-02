@@ -15,6 +15,8 @@ macos = ["skia-safe/gl", "skia-safe/metal"]
 skia-safe = "0.53.0"
 glutin = "0.29"
 gl = "0.14.0"
+reqwest = { version = "0.11", features = ["blocking", "json"] }
+tokio = { version = "1", features = ["full"] }
 
 [target.'cfg(macos)'.dependencies]
 cocoa = { version = "0.24.0"}

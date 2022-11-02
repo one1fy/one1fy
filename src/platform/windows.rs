@@ -6,7 +6,7 @@ use crate::components::ComponentTraits;
 pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
     use gl::types::*;
     use glutin::{
-        event::{Event, KeyboardInput, WindowEvent},
+        event::{Event, KeyboardInput, WindowEvent, ElementState},
         event_loop::{ControlFlow},
         window::WindowBuilder,
         dpi::PhysicalPosition,
@@ -19,6 +19,7 @@ pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
         ColorType,
         Surface,
     };
+    use tokio::*;
 
     const WIDTH: f64 = 375.0;
     const HEIGHT: f64 = 667.0;
@@ -115,7 +116,22 @@ pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
     };
 
     let mut last_postition = PhysicalPosition::<f64>::new(0.0, 0.0);
+    
+    use std::collections::HashMap;
 
+    #[tokio::main]
+    async fn main() -> Result<(), reqwest::Error> {
+        let res = reqwest::get("https://purdue.edu").await?;
+
+        println!("Status: {}", res.status());
+
+        let url = res.url();
+
+        println!("URL: {}", url);
+
+        Ok(())
+    }
+    
     #[allow(deprecated)]
     el.run(move |event, _, control_flow| {
         *control_flow = ControlFlow::Poll;
@@ -155,7 +171,10 @@ pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
                     modifiers: _,
                     ..
                 } => {
-                    handle_click(last_postition, state, button)
+                    if state == ElementState::Pressed {
+                        handle_click(last_postition, state, button);
+                        main();
+                    }
                 }
                 _ => (),
             },
