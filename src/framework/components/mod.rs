@@ -6,6 +6,9 @@ use std::{cell::RefCell, rc::Rc};
 pub mod bar;
 pub use bar::BarContainer;
 
+pub mod checkbox;
+pub use checkbox::CheckBox;
+
 pub mod text_component;
 pub use text_component::TextComponent;
 
@@ -15,7 +18,8 @@ pub use box_component::BoxComponent;
 pub enum Type {
     BOX,
     CONTAINER,
-    TEXT
+    TEXT,
+    CHECKBOX
 }
 
 

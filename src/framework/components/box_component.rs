@@ -103,12 +103,6 @@ impl GetWidth for BoxComponent {
     }
 }
 
-// impl GetMutParent for BoxComponent {
-//     fn get_mut_parent(&mut self) -> &mut Box<dyn ComponentTraits> {
-//         return &mut self.parent;
-//     }
-// }
-
 impl SetLeft for BoxComponent {
     fn set_left(&mut self, val: u32) {
         self.left = val;

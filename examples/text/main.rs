@@ -1,9 +1,7 @@
 use one1fy::components::ComponentTraits;
 use one1fy::framework::*;
-use one1fy::framework::components::{
-    Color,
-    TextComponent,
-};
+use one1fy::framework::components::*;
+use one1fy::framework::components::bar::Orientation;
 
 // This function is only defined here because we are using windows.
 // Otherwise, Swift or Andoird NDK will call build() directly.
@@ -17,8 +15,20 @@ fn main() {
 fn build() {
     let text: String = "hello world".to_string();
     let color: Color = Color::from_hex(0xFF0000);
-    let component: TextComponent = TextComponent::new(0, 0, 10, text, color);
-    let tree: Box<dyn ComponentTraits> = Box::new(component);
+    let component: TextComponent = TextComponent::new(100, 100, 10, 100, 100, true, text, color);
 
-    run_app(tree);
+    let children: Vec<Box<dyn ComponentTraits>> = Vec::new();
+    let mut bar: BarContainer = BarContainer::new(
+        None,
+        true,
+        375,
+        667,
+        0,
+        0,
+        Some(children),
+        Orientation::HORIZONTAL,
+    );
+    bar.add_to_children(Box::new(component));
+
+    run_app(bar);
 }

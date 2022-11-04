@@ -70,8 +70,11 @@ impl BarContainer {
     }
 
     pub fn add_to_children(&mut self, child: Box<dyn ComponentTraits>) {
-        match &self.orientation {
-            HORIZONTAL => {
+        // if (self.orientation == Orientation::HORIZONTAL) {
+        //     println!("horizontal");
+        // }
+        match self.orientation {
+            Orientation::HORIZONTAL => {
                 if self.remaining_x - child.get_width() >= 0 {
                     self.remaining_x = self.remaining_x - child.get_width();
                     self.children.push(child);
