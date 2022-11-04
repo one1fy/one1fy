@@ -197,7 +197,7 @@ pub fn start_event_loop(mut tree: BarContainer) {
                     if state == ElementState::Pressed {
                         handle_click(last_postition, state, button, &mut tree);
                         //send_request();
-                        play_sound();
+                        //play_sound();
                     }
                 }
                 _ => (),
