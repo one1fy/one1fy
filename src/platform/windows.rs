@@ -1,9 +1,9 @@
 use crate::orchestrator::redraw::handle_redraw;
 use crate::orchestrator::event::click::handle_click;
-use crate::components::BoxComponent;
+use crate::components::ComponentTraits;
 
 #[cfg(feature = "windows")]
-pub fn start_event_loop(mut tree: BoxComponent) {
+pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
     use gl::types::*;
     use glutin::{
         event::{Event, KeyboardInput, WindowEvent},
