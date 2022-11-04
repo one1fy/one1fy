@@ -1,12 +1,13 @@
 use crate::orchestrator::redraw::handle_redraw;
 use crate::orchestrator::event::click::handle_click;
 use crate::components::BarContainer;
+use crate::components::ComponentTraits;
 
 #[cfg(feature = "macos")]
 use skia_safe::{scalar, ColorType, Size, Surface};
 
 #[cfg(feature = "macos")]
-pub fn start_event_loop(mut tree: BarContainer) {
+pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
     use cocoa::{appkit::NSView, base::id as cocoa_id};
 
     use core_graphics_types::geometry::CGSize;

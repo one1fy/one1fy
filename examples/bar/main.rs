@@ -172,5 +172,5 @@ fn build() {
     bar.add_to_children(Box::new(mb2));
     bar.add_to_children(Box::new(mb3));
 
-    run_app(bar);
+    run_app(Box::<BarContainer>::new(bar));
 }
