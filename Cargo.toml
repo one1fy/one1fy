@@ -13,11 +13,11 @@ macos = ["skia-safe/gl", "skia-safe/metal"]
 skia-safe = "0.53.0"
 glutin = "0.29"
 gl = "0.14.0"
+rand = "0.8.4"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 cocoa = { version = "0.24.0"}
 core-graphics-types = "0.1.1"
-rand = "0.8.4"
 foreign-types-shared = "0.1.1"
 winit = "0.27.0"
 objc = "0.2.7"
