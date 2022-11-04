@@ -63,10 +63,6 @@ impl BarContainer {
         let current_slice: f32 = container_width as f32 * ((current_child as f32 + 1.0) / num_children as f32);
         let previous_slice: f32 = container_width as f32 * (current_child as f32 / num_children as f32);
         let left_to_change: f32 = ((current_slice as f32 + previous_slice as f32) / 2.0) - child_width as f32 / 2.0;
-<<<<<<< HEAD
-=======
-        println!("left_to_change = {}", left_to_change);
->>>>>>> develop
         if left_to_change < 0.0 {
             return 0 as u32
         }
@@ -75,11 +71,7 @@ impl BarContainer {
 
     pub fn add_to_children(&mut self, child: Box<dyn ComponentTraits>) {
         match &self.orientation {
-<<<<<<< HEAD
             HORIZONTAL => {
-=======
-            Orientation::HORIZONTAL => {
->>>>>>> develop
                 if self.remaining_x - child.get_width() >= 0 {
                     self.remaining_x = self.remaining_x - child.get_width();
                     self.children.push(child);
@@ -87,11 +79,7 @@ impl BarContainer {
                     for i in 0..self.children.len() {
                         let cur = &mut self.children[i];
                         //TODO: build setters for box
-<<<<<<< HEAD
                         cur.set_left((BarContainer::calculate_coordinate(self.width, size, i as u32, cur.get_width())));
-=======
-                        cur.set_left(BarContainer::calculate_coordinate(self.width, size, i as u32, cur.get_width()));
->>>>>>> develop
                         cur.set_top(self.height / 2 - cur.get_height() / 2);
                     }
                 }
@@ -173,16 +161,10 @@ impl SetTop for BarContainer {
 }
 
 impl Draw for BarContainer{
-<<<<<<< HEAD
     fn draw(&mut self, canvas: &mut Canvas) {
         let imm = &*self;
         if self.visible {
             for child in self.children.iter_mut() {
-=======
-    fn draw(&self, canvas: &mut Canvas) {
-        if self.visible {
-            for child in self.children.iter() {
->>>>>>> develop
                 child.draw(canvas);
             }
         }
@@ -229,30 +211,6 @@ impl Remove for BarContainer {
 impl ToggleVisible for BarContainer {
     fn toggle_visible(&mut self) {
         self.visible = !self.visible;
-    }
-}
-
-impl GetHeight for BarContainer {
-    fn get_height(&self) -> u32 {
-        self.height
-    }
-}
-
-impl GetWidth for BarContainer {
-    fn get_width(&self) -> u32 {
-        self.width
-    }
-}
-
-impl SetLeft for BarContainer {
-    fn set_left(&mut self, val: u32) {
-        self.left = val;
-    }
-}
-
-impl SetTop for BarContainer {
-    fn set_top(&mut self, val: u32) {
-        self.top = val;
     }
 }
 

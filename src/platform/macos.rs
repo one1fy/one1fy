@@ -7,7 +7,7 @@ use crate::components::ComponentTraits;
 use skia_safe::{scalar, ColorType, Size, Surface};
 
 #[cfg(feature = "macos")]
-pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
+pub fn start_event_loop(mut tree: BarContainer) {
     use cocoa::{appkit::NSView, base::id as cocoa_id};
 
     use core_graphics_types::geometry::CGSize;

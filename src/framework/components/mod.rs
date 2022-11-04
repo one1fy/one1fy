@@ -2,7 +2,6 @@ use skia_safe::{ Canvas, Rect, Color4f };
 use skia_safe::paint::{ Paint };
 use uuid::Uuid;
 use std::{cell::RefCell, rc::Rc};
-use skia_safe::Canvas;
 
 pub mod bar;
 pub use bar::BarContainer;

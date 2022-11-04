@@ -1,7 +1,7 @@
 use skia_safe::{ Canvas, Rect, Color4f, Paint };
 
 use super::Style;
-use super::{ Draw, GetHeight, GetWidth, SetLeft, SetTop };
+use super::*;
 
 pub struct BoxComponent {
     pub id: Uuid,
