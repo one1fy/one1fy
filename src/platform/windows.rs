@@ -1,9 +1,10 @@
 use crate::orchestrator::redraw::handle_redraw;
 use crate::orchestrator::event::click::handle_click;
 use crate::components::ComponentTraits;
+use crate::components::BarContainer;
 
 #[cfg(feature = "windows")]
-pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
+pub fn start_event_loop(mut tree: BarContainer) {
     use gl::types::*;
     use glutin::{
         event::{Event, KeyboardInput, WindowEvent, ElementState},
@@ -194,7 +195,7 @@ pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
                     ..
                 } => {
                     if state == ElementState::Pressed {
-                        handle_click(last_postition, state, button);
+                        handle_click(last_postition, state, button, &mut tree);
                         //send_request();
                         play_sound();
                     }

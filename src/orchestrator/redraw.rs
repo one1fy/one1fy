@@ -31,7 +31,7 @@ fn draw_square(
 }
 */
 
-pub fn handle_redraw(canvas: &mut Canvas, tree: &mut Box<dyn ComponentTraits>) {
+pub fn handle_redraw(canvas: &mut Canvas, tree: &mut BarContainer) {
     canvas.clear(Color::WHITE);
     tree.draw(canvas);
 }

@@ -41,7 +41,7 @@ impl TextComponent {
 }
 
 impl Draw for TextComponent {
-    fn draw(&self, canvas: &mut Canvas) {
+    fn draw(&mut self, canvas: &mut Canvas) {
         canvas.save();
 
         use skia_safe::{Font, FontStyle};
