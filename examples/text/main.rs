@@ -1,8 +1,8 @@
+use one1fy::components::ComponentTraits;
 use one1fy::framework::*;
 use one1fy::framework::components::{
-    BoxComponent,
-    Style,
     Color,
+    TextComponent,
 };
 
 // This function is only defined here because we are using windows.
@@ -15,18 +15,10 @@ fn main() {
 
 /// This must be defined always as this is the entry point into the user's code.
 fn build() {
-    let box_style: Style = Style::new(
-        Color::from_hex(0xff00ff),
-    );
+    let text: String = "hello world".to_string();
+    let color: Color = Color::from_hex(0xFF0000);
+    let component: TextComponent = TextComponent::new(0, 0, 10, text, color);
+    let tree: Box<dyn ComponentTraits> = Box::new(component);
 
-    let red_box: Box<BoxComponent> = Box::<BoxComponent>::new(BoxComponent::new(
-        0,
-        0,
-        100,
-        100,
-        box_style,
-        true
-    ));
-
-    run_app(red_box);
+    run_app(tree);
 }

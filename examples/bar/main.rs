@@ -4,7 +4,6 @@ use one1fy::framework::components::*;
 
 use one1fy::framework::components::bar::Orientation;
 
-
 #[cfg(any(feature = "windows", feature = "macos"))]
 fn main() {
     build();
@@ -58,12 +57,12 @@ fn build() {
         0,
         0,
         Some(children),
-        Orientation::HORIZONTAL,
+        Orientation::VERTICAL,
     );
 
     bar.add_to_children(Box::new(red_box_1));
     bar.add_to_children(Box::new(red_box_2));
     bar.add_to_children(Box::new(red_box_3));
 
-    run_app(bar);
+    run_app(Box::<BarContainer>::new(bar));
 }
