@@ -1,4 +1,7 @@
-use skia_safe::{ Color, Canvas };
+use skia_safe::{ Color, Canvas, Rect, Color4f };
+use skia_safe::paint::{ Paint };
+use glutin::dpi::PhysicalPosition;
+
 
 use crate::components::*;
 
@@ -29,9 +32,15 @@ fn draw_square(
     canvas.draw_rect(rect, &paint);
     canvas.restore();
 }
+
+
+pub fn move_component(tree: &mut BoxComponent, position: PhysicalPosition<f64>) {
+    tree.left = position.x as u32;
+    tree.top = position.y as u32;
+}
 */
 
-pub fn handle_redraw(canvas: &mut Canvas, tree: &mut Box<dyn ComponentTraits>) {
+pub fn handle_redraw(canvas: &mut Canvas, tree: &mut BarContainer) {
     canvas.clear(Color::WHITE);
     tree.draw(canvas);
 }
