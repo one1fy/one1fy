@@ -19,6 +19,9 @@ reqwest = { version = "0.11", features = ["blocking", "json"] }
 tokio = { version = "1", features = ["full"] }
 open = "3.0.3"
 rodio = "0.16.0"
+crossbeam = "0.8.2"
+hound = "3.5.0"
+# soundio = "0.2.1"
 
 [target.'cfg(macos)'.dependencies]
 cocoa = { version = "0.24.0"}
