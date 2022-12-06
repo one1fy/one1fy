@@ -123,8 +123,12 @@ impl GetType for BoxComponent {
 
 impl OnClick for BoxComponent {}
 
+impl OnPress for BoxComponent {}
+
 impl SetStyle for BoxComponent {
     fn set_style(&mut self, style: Style) {
         self.style = style;
     }
 }
+
+impl SetText for BoxComponent {}

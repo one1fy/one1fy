@@ -54,7 +54,7 @@ fn build() {
         CheckType::BOX,
         false,
         "One1fy is awesome".to_string(),
-        Some("One1fy is not awesome".to_string()),
+        Some("One1fy is still awesome".to_string()),
     );
 
     let cbox3: CheckBox = CheckBox::new(
@@ -70,8 +70,9 @@ fn build() {
     );
 
     bar.add_to_children(Box::new(cbox));
-    bar.add_to_children(Box::new(cbox2));
     bar.add_to_children(Box::new(cbox3));
+    bar.add_to_children(Box::new(cbox2));
+    
 
     run_app(bar);
 }

@@ -1,5 +1,6 @@
 use crate::orchestrator::redraw::handle_redraw;
 use crate::orchestrator::event::click::handle_click;
+use crate::orchestrator::event::keypress::handle_press;
 use crate::components::BarContainer;
 use crate::components::ComponentTraits;
 
@@ -84,15 +85,13 @@ pub fn start_event_loop(mut tree: BarContainer) {
                 }
                 WindowEvent::CloseRequested => *control_flow = ControlFlow::Exit,
                 WindowEvent::KeyboardInput {
-                    input:
-                        KeyboardInput {
-                            virtual_keycode: _,
-                            modifiers: _,
-                            ..
-                        },
+                    input,
                     ..
                 } => {
-
+                    if input.state == ElementState::Pressed {
+                        handle_press(input, &mut tree);
+                    }
+                    
                 }
                 WindowEvent::CursorMoved {
                     position,

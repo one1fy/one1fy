@@ -151,6 +151,8 @@ impl OnClick for CheckBox {
     }
 }
 
+impl OnPress for CheckBox {}
+
 impl ToggleVisible for CheckBox {
     fn toggle_visible(&mut self) {
         self.visible = !self.visible;
@@ -188,3 +190,5 @@ impl SetTop for CheckBox {
 }
 
 impl SetStyle for CheckBox {}
+
+impl SetText for CheckBox {}

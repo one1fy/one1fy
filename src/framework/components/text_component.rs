@@ -50,42 +50,46 @@ impl TextComponent {
 
 impl Draw for TextComponent {
     fn draw(&mut self, canvas: &mut Canvas) {
-        canvas.save();
+        if self.text.len() > 0 {
+            canvas.save();
 
-        use skia_safe::{Font, FontStyle};
+            use skia_safe::{Font, FontStyle};
 
-        let typeface: Option<Typeface> = Typeface::new(
-            "Times New Roman",
-            FontStyle::new(
-                Weight::NORMAL,
-                Width::NORMAL,
-                Slant::Upright,
-            ),
-        );
+            let typeface: Option<Typeface> = Typeface::new(
+                "Times New Roman",
+                FontStyle::new(
+                    Weight::NORMAL,
+                    Width::NORMAL,
+                    Slant::Upright,
+                ),
+            );
 
-        let font: Font = Font::new(
-            typeface.unwrap(),
-            Some(64.0 as f32),
-        );
+            let font: Font = Font::new(
+                typeface.unwrap(),
+                Some(64.0 as f32),
+            );
 
-        let text: Option<TextBlob> = TextBlob::from_str(
-            self.text.as_str(),
-            &font,
-        );
+            let mut text: Option<TextBlob> = TextBlob::from_str(
+                self.text.as_str(),
+                &font,
+            );
 
-        let mut paint: Paint = Paint::new(
-            Color4f::new(255.0, 0.0, 0.0, 0.0),
-            None
-        );
 
-        paint.set_style(skia_safe::PaintStyle::Fill);
-        paint.set_color(self.color.color);
+            let mut paint: Paint = Paint::new(
+                Color4f::new(255.0, 0.0, 0.0, 0.0),
+                None
+            );
 
-        canvas.draw_text_blob(
-            text.unwrap(),
-            Point::new(self.left as f32, self.top as f32),
-            &paint,
-        );
+            paint.set_style(skia_safe::PaintStyle::Fill);
+            paint.set_color(self.color.color);
+
+            canvas.draw_text_blob(
+                text.unwrap(),
+                Point::new(self.left as f32, self.top as f32),
+                &paint,
+            );
+        }
+        
     }
 }
 
@@ -106,6 +110,8 @@ impl Find for TextComponent {
 impl Remove for TextComponent {}
 
 impl OnClick for TextComponent {}
+
+impl OnPress for TextComponent {}
 
 impl ToggleVisible for TextComponent {
     fn toggle_visible(&mut self) {
@@ -140,6 +146,12 @@ impl SetLeft for TextComponent {
 impl SetTop for TextComponent {
     fn set_top(&mut self, _value: u32) {
         self.top = _value;
+    }
+}
+
+impl SetText for TextComponent {
+    fn set_text(&mut self, text: String) {
+        self.text = text;
     }
 }
 

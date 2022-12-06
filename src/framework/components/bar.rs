@@ -163,6 +163,8 @@ impl SetTop for BarContainer {
     }
 }
 
+impl SetText for BarContainer {}
+
 impl Draw for BarContainer{
     fn draw(&mut self, canvas: &mut Canvas) {
         let imm = &*self;
@@ -224,6 +226,15 @@ impl GetType for BarContainer {
 }
 
 impl OnClick for BarContainer {}
+
+impl OnPress for BarContainer {
+    fn on_press(&mut self, key: char) {
+        for i in 0..self.children.len() {
+            let cur = &mut self.children[i];
+            cur.on_press(key);
+        }
+    }
+}
 
 impl SetStyle for BarContainer {}
  
