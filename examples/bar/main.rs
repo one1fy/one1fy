@@ -150,13 +150,18 @@ fn main() {
 
 
 fn build() {
+    
+    let white_height: u32 = 100;
+    let black_height: u32 = 70;
+    let white_width: u32 = 45;
+    let black_width: u32 = 30;
 
     let children: Vec<Box<dyn ComponentTraits>> = Vec::new();
     let mut bar: BarContainer = BarContainer::new(
         None,
         true,
         375,
-        667,
+        550,
         0,
         0,
         Some(children),
@@ -164,86 +169,195 @@ fn build() {
     );
 
     let box_style_1: Style = Style::new(
-        Color::from_hex(0x9400d3),
+        Color::from_hex(0xd0d0d0),
     );
 
     let mut box_1: BoxComponent = BoxComponent::new(
         0,
         0,
-        100,
-        50,
+        white_height,
+        white_width,
         box_style_1,
         true,
     );
 
 
     let box_style_2: Style = Style::new(
-        Color::from_hex(0x0000ff),
+        Color::from_hex(0x000000),
     );
 
     let mut box_2: BoxComponent = BoxComponent::new(
         0,
         0,
-        100,
-        50,
+        black_height,
+        black_width,
         box_style_2,
         true,
     );
 
 
     let mut box_style_3: Style = Style::new(
-        Color::from_hex(0x00ff00),
+        Color::from_hex(0xd0d0d0),
     );
     
     let mut box_3: BoxComponent = BoxComponent::new(
         0,
-        0,
-        100,
-        50,
+        25,
+        white_height,
+        white_width,
         box_style_3,
         true,
     );
 
 
     let mut box_style_4: Style = Style::new(
-        Color::from_hex(0xffff00),
+        Color::from_hex(0x000000),
     );
     
     let mut box_4: BoxComponent = BoxComponent::new(
         0,
         0,
-        100,
-        50,
+        black_height,
+        black_width,
         box_style_4,
         true,
     );
 
 
     let mut box_style_5: Style = Style::new(
-        Color::from_hex(0xff0000),
+        Color::from_hex(0xd0d0d0),
     );
     
     let mut box_5: BoxComponent = BoxComponent::new(
         0,
         0,
-        100,
-        50,
+        white_height,
+        white_width,
         box_style_5,
         true,
     );
 
+    let box_style_6: Style = Style::new(
+        Color::from_hex(0xd0d0d0),
+    );
 
-    let mb1 = MyBox::new(Rc::new(RefCell::new(box_1)), Note::C);
-    let mb2 = MyBox::new(Rc::new(RefCell::new(box_2)), Note::D);
-    let mb3 = MyBox::new(Rc::new(RefCell::new(box_3)), Note::E);
-    let mb4 = MyBox::new(Rc::new(RefCell::new(box_4)), Note::F);
-    let mb5 = MyBox::new(Rc::new(RefCell::new(box_5)), Note::G);
+    let mut box_6: BoxComponent = BoxComponent::new(
+        0,
+        0,
+        white_height,
+        white_width,
+        box_style_6,
+        true,
+    );
 
-    bar.add_to_children(Box::new(mb1));
-    bar.add_to_children(Box::new(mb2));
-    bar.add_to_children(Box::new(mb3));
-    bar.add_to_children(Box::new(mb4));
-    bar.add_to_children(Box::new(mb5));
+    let box_style_7: Style = Style::new(
+        Color::from_hex(0x000000),
+    );
+
+    let mut box_7: BoxComponent = BoxComponent::new(
+        0,
+        0,
+        black_height,
+        black_width,
+        box_style_7,
+        true,
+    );
+
+    let box_style_8: Style = Style::new(
+        Color::from_hex(0xd0d0d0),
+    );
+
+    let mut box_8: BoxComponent = BoxComponent::new(
+        0,
+        0,
+        white_height,
+        white_width,
+        box_style_8,
+        true,
+    );
+
+    
+    let box_style_9: Style = Style::new(
+        Color::from_hex(0x000000),
+    );
+
+    let mut box_9: BoxComponent = BoxComponent::new(
+        0,
+        0,
+        black_height,
+        black_width,
+        box_style_9,
+        true,
+    );
+
+
+    let mut box_style_10: Style = Style::new(
+        Color::from_hex(0xd0d0d0),
+    );
+    
+    let mut box_10: BoxComponent = BoxComponent::new(
+        0,
+        0,
+        white_height,
+        white_width,
+        box_style_10,
+        true,
+    );
+
+
+    let mut box_style_11: Style = Style::new(
+        Color::from_hex(0x000000),
+    );
+    
+    let mut box_11: BoxComponent = BoxComponent::new(
+        0,
+        0,
+        black_height,
+        black_width,
+        box_style_11,
+        true,
+    );
+
+
+    let mut box_style_12: Style = Style::new(
+        Color::from_hex(0xd0d0d0),
+    );
+    
+    let mut box_12: BoxComponent = BoxComponent::new(
+        0,
+        0,
+        white_height,
+        white_width,
+        box_style_12,
+        true,
+    );
+    
+
+    let box_c = MyBox::new(Rc::new(RefCell::new(box_1)), Note::C);
+    let box_csharp = MyBox::new(Rc::new(RefCell::new(box_2)), Note::Csharp);
+    let box_d = MyBox::new(Rc::new(RefCell::new(box_3)), Note::D);
+    let box_eflat = MyBox::new(Rc::new(RefCell::new(box_4)), Note::Eflat);
+    let box_e = MyBox::new(Rc::new(RefCell::new(box_5)), Note::E);
+    let box_f = MyBox::new(Rc::new(RefCell::new(box_6)), Note::F);
+    let box_fsharp = MyBox::new(Rc::new(RefCell::new(box_7)), Note::Fsharp);
+    let box_g = MyBox::new(Rc::new(RefCell::new(box_8)), Note::G);
+    let box_aflat = MyBox::new(Rc::new(RefCell::new(box_9)), Note::Aflat);
+    let box_a = MyBox::new(Rc::new(RefCell::new(box_10)), Note::A);
+    let box_bflat = MyBox::new(Rc::new(RefCell::new(box_11)), Note::Bflat);
+    let box_b = MyBox::new(Rc::new(RefCell::new(box_12)), Note::B);
+
+    bar.add_to_children(Box::new(box_c));
+    bar.add_to_children(Box::new(box_csharp));
+    bar.add_to_children(Box::new(box_d));
+    bar.add_to_children(Box::new(box_eflat));
+    bar.add_to_children(Box::new(box_e));
+    bar.add_to_children(Box::new(box_f));
+    bar.add_to_children(Box::new(box_fsharp));
+    bar.add_to_children(Box::new(box_g));
+    bar.add_to_children(Box::new(box_aflat));
+    bar.add_to_children(Box::new(box_a));
+    bar.add_to_children(Box::new(box_bflat));
+    bar.add_to_children(Box::new(box_b));
 
     run_app(bar);
 }
