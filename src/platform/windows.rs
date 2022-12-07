@@ -155,6 +155,7 @@ pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
     }
 
 //////////////////////
+/*
 
     use std::io;
     use std::io::BufWriter;
@@ -257,7 +258,7 @@ pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
 	    Ok(())
     }
 
-
+    */
 ///////////////
     
     #[allow(deprecated)]
@@ -303,7 +304,7 @@ pub fn start_event_loop(mut tree: Box<dyn ComponentTraits>) {
                         handle_click(last_postition, state, button);  
                         //send_request();
                         //play_sound();
-                        record_sound("wav_recording.wav");
+                        //record_sound();
                     }
                 }
                 _ => (),

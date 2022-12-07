@@ -37,24 +37,12 @@ fn build() {
         true,
     );
 
-    let box_style_3: Style = Style::new(
-        Color::from_hex(0x0000ff),
-    );
-
-    let red_box_3: BoxComponent = BoxComponent::new(
-        0,
-        0,
-        100,
-        100,
-        box_style_3,
-        true,
-    );
     let children: Vec<Box<dyn ComponentTraits>> = Vec::new();
     let mut bar: BarContainer = BarContainer::new(
         None,
         true,
         375,
-        667,
+        500,
         0,
         0,
         Some(children),
@@ -63,7 +51,6 @@ fn build() {
 
     bar.add_to_children(Box::new(red_box_1));
     bar.add_to_children(Box::new(red_box_2));
-    bar.add_to_children(Box::new(red_box_3));
 
     run_app(Box::<BarContainer>::new(bar));
 }
