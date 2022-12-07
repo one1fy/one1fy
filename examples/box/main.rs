@@ -24,6 +24,7 @@ fn build() {
         334,
         Some(children),
         Orientation::VERTICAL,
+        false,
     );
 
     let box_style: Style = Style::new(

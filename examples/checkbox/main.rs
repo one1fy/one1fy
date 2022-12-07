@@ -31,6 +31,7 @@ fn build() {
         334,
         Some(children),
         Orientation::VERTICAL,
+        false,
     );
 
     let cbox: CheckBox = CheckBox::new(

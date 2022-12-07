@@ -121,6 +121,8 @@ impl GetType for BoxComponent {
     }
 }
 
+impl GetText for BoxComponent {}
+
 impl OnClick for BoxComponent {}
 
 impl OnPress for BoxComponent {}

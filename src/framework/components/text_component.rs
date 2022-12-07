@@ -137,6 +137,12 @@ impl GetType for TextComponent {
     }
 }
 
+impl GetText for TextComponent {
+    fn get_text(&mut self) -> Option<String> {
+        Some(self.text.clone())
+    }
+}
+
 impl SetLeft for TextComponent {
     fn set_left(&mut self, _value: u32) {
         self.left = _value;

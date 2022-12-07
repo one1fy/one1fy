@@ -80,6 +80,8 @@ impl GetType for MyBox {
     }
 }
 
+impl GetText for MyBox {}
+
 impl OnClick for MyBox {
     fn on_click(&mut self) {
         let num = rand::thread_rng().gen_range(0..0xffffffff);
@@ -125,6 +127,7 @@ fn build() {
         0,
         Some(children),
         Orientation::HORIZONTAL,
+        false,
     );
 
     let box_style_1: Style = Style::new(

@@ -177,6 +177,12 @@ impl GetType for CheckBox {
     }
 }
 
+impl GetText for CheckBox {
+    fn get_text(&mut self) -> Option<String> {
+        Some(self.text.clone())
+    }
+}
+
 impl SetLeft for CheckBox {
     fn set_left(&mut self, _value: u32) {
         self.left = _value;

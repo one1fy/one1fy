@@ -66,6 +66,13 @@ pub trait GetType {
     }
 }
 
+pub trait GetText {
+    fn get_text(&mut self) -> Option<String> {
+        println!("This component has no associated Text!");
+        None
+    }
+}
+
 pub trait Find {
     fn find(&mut self, x: u32, y: u32) -> Option<Uuid> {
         println!("Component has no find function defined.");
@@ -101,7 +108,7 @@ pub trait ToggleVisible {
 //     fn get_mut_parent(&mut self) -> &mut Box<dyn ComponentTraits>;
 // }
 
-pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop + GetType + Find + Remove + OnClick + ToggleVisible + SetStyle + OnPress + SetText {}
+pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop + GetType + Find + Remove + OnClick + ToggleVisible + SetStyle + OnPress + SetText + GetText {}
 
 pub struct Style {
     pub color: Color,
@@ -157,6 +164,6 @@ impl Color {
 
 
 
-impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop + GetType + Find + Remove + OnClick + ToggleVisible + SetStyle + OnPress + SetText> ComponentTraits for T {}
+impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop + GetType + Find + Remove + OnClick + ToggleVisible + SetStyle + OnPress + SetText + GetText> ComponentTraits for T {}
 
 

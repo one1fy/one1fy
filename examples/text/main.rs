@@ -27,6 +27,7 @@ fn build() {
         0,
         Some(children),
         Orientation::HORIZONTAL,
+        false,
     );
     bar.add_to_children(Box::new(component));
 
