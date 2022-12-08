@@ -34,6 +34,18 @@ fn build() {
         false,
     );
 
+    let st1 = Style::new(
+        Color::from_hex(0xff0000),
+    );
+
+    let st2 = Style::new(
+        Color::from_hex(0xff0000),
+    );
+
+    let st3 = Style::new(
+        Color::from_hex(0xff0000),
+    );
+
     let cbox: CheckBox = CheckBox::new(
         0,
         0,
@@ -44,6 +56,7 @@ fn build() {
         false,
         "I am cool".to_string(),
         Some("I am not cool".to_string()),
+        st1,
     );
 
     let cbox2: CheckBox = CheckBox::new(
@@ -56,6 +69,7 @@ fn build() {
         false,
         "One1fy is awesome".to_string(),
         Some("One1fy is still awesome".to_string()),
+        st2,
     );
 
     let cbox3: CheckBox = CheckBox::new(
@@ -68,6 +82,7 @@ fn build() {
         false,
         "I am Dom".to_string(),
         Some("I am not Dom".to_string()),
+        st3,
     );
 
     bar.add_to_children(Box::new(cbox));

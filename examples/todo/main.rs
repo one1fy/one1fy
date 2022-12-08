@@ -39,8 +39,8 @@ fn build() {
     );
 
     let text: String = "hello world".to_string();
-    let color: Color = Color::from_hex(0xFF0000);
-    let component: TextComponent = TextComponent::new(100, 100, 10, 100, 100, true, text.clone(), color);
+    let color: Color = Color::from_hex(0x000000);
+    let component: TextComponent = TextComponent::new(105, 1055, 100, 500, 20, true, text.clone(), color);
 
     let input = input::InputField::new(Rc::new(RefCell::new(component)), text.clone());
     let list = list::ListBox::new(Rc::new(RefCell::new(input)), true, 100, 100, 0, 0);

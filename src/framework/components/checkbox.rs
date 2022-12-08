@@ -20,6 +20,7 @@ pub struct CheckBox {
     pub checked: bool,
     pub text: String,
     pub altText: Option<String>,
+    pub style: Style,
 }
 
 pub enum CheckType {
@@ -38,6 +39,7 @@ impl CheckBox {
         checked: bool,
         text: String,
         altText: Option<String>,
+        style: Style,
     ) -> CheckBox {
         CheckBox {
             id: Uuid::new_v4(),
@@ -51,6 +53,7 @@ impl CheckBox {
             checked,
             text,
             altText,
+            style,
         }
     }
 }
@@ -69,18 +72,21 @@ impl Draw for CheckBox {
                 right as f32,
                 bottom as f32,
             );
-            let mut col: Color4f = Color4f::new(100.0, 0.0, 0.0, 1.0);
+            let mut col: Color4f = Color4f::new(0.0, 0.0, 0.0, 0.0);
             if self.checked {
                 col = Color4f::new(80.0, 80.0, 80.0, 1.0)
-            };
+            }
             let mut paint: Paint = Paint::new(
                 col,
                 None
             );
+            if !self.checked {
+                paint.set_color(self.style.color.color);
+            }
 
             //make text
             let typeface: Option<Typeface> = Typeface::new(
-                "Times New Roman",
+                "Bradley Hand",
                 FontStyle::new(
                     Weight::NORMAL,
                     Width::NORMAL,
@@ -109,9 +115,10 @@ impl Draw for CheckBox {
             );
 
             let mut p: Paint = Paint::new(
-                Color4f::new(255.0, 0.0, 0.0, 1.0),
+                Color4f::new(0.0, 0.0, 0.0, 0.0),
                 None
             );
+            p.set_color(self.style.color.color);
             p.set_style(skia_safe::PaintStyle::Fill);
 
 
