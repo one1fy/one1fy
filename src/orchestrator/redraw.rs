@@ -32,6 +32,6 @@ fn draw_square(
 */
 
 pub fn handle_redraw(canvas: &mut Canvas, tree: &mut BarContainer) {
-    canvas.clear(Color::WHITE);
+    canvas.clear(Color::DARK_GRAY);
     tree.draw(canvas);
 }

@@ -21,6 +21,7 @@ pub struct BarContainer {
     pub remaining_x: u32,
     pub remaining_y: u32,
     pub componentType: Type,
+    pub autoSizeOverride: bool,
 }
 
 impl BarContainer {
@@ -33,6 +34,7 @@ impl BarContainer {
         top: u32,
         children: Option<Vec<Box<dyn ComponentTraits>>>,
         orientation: Orientation,
+        autoSizeOverride: bool,
     ) -> BarContainer {
         let x: Vec<Box<dyn ComponentTraits>>;
 
@@ -55,6 +57,7 @@ impl BarContainer {
             remaining_x: width,
             remaining_y: height,
             componentType: Type::CONTAINER,
+            autoSizeOverride,
         }
 
     }
@@ -70,6 +73,10 @@ impl BarContainer {
     }
 
     pub fn add_to_children(&mut self, child: Box<dyn ComponentTraits>) {
+        if (self.autoSizeOverride) {
+            self.children.push(child);
+            return;
+        }
         match &self.orientation {
             HORIZONTAL => {
                 if self.remaining_x - child.get_width() >= 0 {
