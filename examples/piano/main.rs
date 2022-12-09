@@ -21,19 +21,19 @@ use rodio::source::{SineWave, Source};
 pub struct MyBox {
     pub child: Rc<RefCell<dyn ComponentTraits>>,
     pub tone: f32,
-    // pub parent: Rc<RefCell<dyn ComponentTraits>>,
+    pub title: Option<String>,
 }
 
 impl MyBox {
     pub fn new(
         child: Rc<RefCell<dyn ComponentTraits>>,
-        tone: f32
-        //parent: Rc<RefCell<dyn ComponentTraits>>,
+        tone: f32,
+        title: Option<String>
     ) -> MyBox {
         MyBox {
             child,
             tone,
-            //parent,
+            title,
         }
     }
 
@@ -102,11 +102,14 @@ impl GetType for MyBox {
     }
 }
 
+impl GetText for MyBox {}
+
+impl SetText for MyBox {}
+
 impl OnClick for MyBox {
     fn on_click(&mut self) {
         let num = rand::thread_rng().gen_range(0..0xffffffff);
         let style: Style = Style::new(Color::from_hex(num));
-        //self.child.borrow_mut().set_style(style);
         self.play_tone(self.tone);
     }
 }
@@ -153,7 +156,7 @@ fn main() {
 fn build() {
     
     let white_height: u32 = 100;
-    let black_height: u32 = 65;
+    let black_height: u32 = 60;
     let white_width: u32 = 40;
     let black_width: u32 = 25;
     let top_position: u32 = 100;
@@ -182,6 +185,7 @@ fn build() {
         white_width,
         box_style_1,
         true,
+        " ".to_string(),
     );
 
 
@@ -196,6 +200,7 @@ fn build() {
         black_width,
         box_style_2,
         true,
+        " ".to_string(),
     );
 
 
@@ -210,6 +215,7 @@ fn build() {
         white_width,
         box_style_3,
         true,
+        " ".to_string(),
     );
 
 
@@ -224,6 +230,7 @@ fn build() {
         black_width,
         box_style_4,
         true,
+        " ".to_string(),
     );
 
 
@@ -238,6 +245,7 @@ fn build() {
         white_width,
         box_style_5,
         true,
+        " ".to_string(),
     );
 
     let box_style_6: Style = Style::new(
@@ -251,6 +259,7 @@ fn build() {
         white_width,
         box_style_6,
         true,
+        " ".to_string(),
     );
 
     let box_style_7: Style = Style::new(
@@ -264,6 +273,7 @@ fn build() {
         black_width,
         box_style_7,
         true,
+        " ".to_string(),
     );
 
     let box_style_8: Style = Style::new(
@@ -277,6 +287,7 @@ fn build() {
         white_width,
         box_style_8,
         true,
+        " ".to_string(),
     );
 
     
@@ -291,6 +302,7 @@ fn build() {
         black_width,
         box_style_9,
         true,
+        " ".to_string(),
     );
 
 
@@ -305,6 +317,7 @@ fn build() {
         white_width,
         box_style_10,
         true,
+        " ".to_string(),
     );
 
 
@@ -319,6 +332,7 @@ fn build() {
         black_width,
         box_style_11,
         true,
+        " ".to_string(),
     );
 
 
@@ -333,6 +347,7 @@ fn build() {
         white_width,
         box_style_12,
         true,
+        " ".to_string(),
     );
 
     let mut box_style_13: Style = Style::new(
@@ -346,36 +361,59 @@ fn build() {
         white_width,
         box_style_13,
         true,
+        " ".to_string(),
+    );
+
+    let mut box_style_text: Style = Style::new(
+        Color::from_hex(0x05FF00FF),
+    );
+    
+    let mut box_text: BoxComponent = BoxComponent::new(
+        20,
+        0,
+        50,
+        200,
+        box_style_text,
+        true,
+        "My Piano App".to_string(),
     );
     
 
-    let box_c = MyBox::new(Rc::new(RefCell::new(box_1)), Note::C);
-    let box_c_sharp = MyBox::new(Rc::new(RefCell::new(box_2)), Note::C_SHARP);
-    let box_d = MyBox::new(Rc::new(RefCell::new(box_3)), Note::D);
-    let box_e_flat = MyBox::new(Rc::new(RefCell::new(box_4)), Note::E_FLAT);
-    let box_e = MyBox::new(Rc::new(RefCell::new(box_5)), Note::E);
-    let box_f = MyBox::new(Rc::new(RefCell::new(box_6)), Note::F);
-    let box_f_sharp = MyBox::new(Rc::new(RefCell::new(box_7)), Note::F_SHARP);
-    let box_g = MyBox::new(Rc::new(RefCell::new(box_8)), Note::G);
-    let box_a_flat = MyBox::new(Rc::new(RefCell::new(box_9)), Note::A_FLAT);
-    let box_a = MyBox::new(Rc::new(RefCell::new(box_10)), Note::A);
-    let box_b_flat = MyBox::new(Rc::new(RefCell::new(box_11)), Note::B_FLAT);
-    let box_b = MyBox::new(Rc::new(RefCell::new(box_12)), Note::B);
-    let box_c_octave = MyBox::new(Rc::new(RefCell::new(box_13)), Note::C_OCTAVE);
+    let box_c = MyBox::new(Rc::new(RefCell::new(box_1)), Note::C, None);
+    let box_c_sharp = MyBox::new(Rc::new(RefCell::new(box_2)), Note::C_SHARP, None);
+    let box_d = MyBox::new(Rc::new(RefCell::new(box_3)), Note::D, None);
+    let box_e_flat = MyBox::new(Rc::new(RefCell::new(box_4)), Note::E_FLAT, None);
+    let box_e = MyBox::new(Rc::new(RefCell::new(box_5)), Note::E, None);
+    let box_f = MyBox::new(Rc::new(RefCell::new(box_6)), Note::F, None);
+    let box_f_sharp = MyBox::new(Rc::new(RefCell::new(box_7)), Note::F_SHARP, None);
+    let box_g = MyBox::new(Rc::new(RefCell::new(box_8)), Note::G, None);
+    let box_a_flat = MyBox::new(Rc::new(RefCell::new(box_9)), Note::A_FLAT, None);
+    let box_a = MyBox::new(Rc::new(RefCell::new(box_10)), Note::A, None);
+    let box_b_flat = MyBox::new(Rc::new(RefCell::new(box_11)), Note::B_FLAT, None);
+    let box_b = MyBox::new(Rc::new(RefCell::new(box_12)), Note::B, None);
+    let box_c_octave = MyBox::new(Rc::new(RefCell::new(box_13)), Note::C_OCTAVE, None);
+
+
+    let text: String = "My Piano App".to_string();
+    let box_title = MyBox::new(Rc::new(RefCell::new(box_text)), 0.0, Some(text.clone()));
+
+
+    //bar.add_to_children(Box::new(box_title));
 
     bar.add_to_children(Box::new(box_c));
-    bar.add_to_children(Box::new(box_c_sharp));
     bar.add_to_children(Box::new(box_d));
-    bar.add_to_children(Box::new(box_e_flat));
     bar.add_to_children(Box::new(box_e));
     bar.add_to_children(Box::new(box_f));
-    bar.add_to_children(Box::new(box_f_sharp));
     bar.add_to_children(Box::new(box_g));
-    bar.add_to_children(Box::new(box_a_flat));
     bar.add_to_children(Box::new(box_a));
-    bar.add_to_children(Box::new(box_b_flat));
     bar.add_to_children(Box::new(box_b));
     bar.add_to_children(Box::new(box_c_octave));
+
+    bar.add_to_children(Box::new(box_c_sharp));
+    bar.add_to_children(Box::new(box_e_flat));
+    bar.add_to_children(Box::new(box_f_sharp));
+    bar.add_to_children(Box::new(box_a_flat));
+    bar.add_to_children(Box::new(box_b_flat));
 
     run_app(bar);
 }

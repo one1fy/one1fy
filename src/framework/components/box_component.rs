@@ -3,6 +3,13 @@ use skia_safe::{ Canvas, Rect, Color4f, Paint };
 use super::Style;
 use super::*;
 
+use skia_safe::font_style::Slant;
+use skia_safe::font_style::Weight;
+use skia_safe::font_style::Width;
+use skia_safe::TextBlob;
+use skia_safe::Typeface;
+use skia_safe::Point;
+
 pub struct BoxComponent {
     pub id: Uuid,
     pub left: u32,
@@ -12,6 +19,7 @@ pub struct BoxComponent {
     pub style: Style,
     pub visible: bool,
     pub componentType: Type,
+    pub text: String,
 }
 
 impl BoxComponent {
@@ -22,6 +30,7 @@ impl BoxComponent {
         width: u32,
         style: Style,
         visible: bool,
+        text: String,
     ) -> BoxComponent {
         BoxComponent {
             id: Uuid::new_v4(),
@@ -32,6 +41,7 @@ impl BoxComponent {
             style,
             visible,
             componentType: Type::BOX,
+            text,
         }
     }
 }
@@ -40,6 +50,7 @@ impl Draw for BoxComponent {
     fn draw(&mut self, canvas: &mut Canvas) {
         if self.visible {
             canvas.save();
+            use skia_safe::{Font, FontStyle};
             let right = self.left + self.width;
             let bottom = self.top + self.height;
             let rect = Rect::new(
@@ -53,6 +64,48 @@ impl Draw for BoxComponent {
                 None
             );
             paint.set_color(self.style.color.color);
+
+            //make text
+            let typeface: Option<Typeface> = Typeface::new(
+                "Times New Roman",
+                FontStyle::new(
+                    Weight::NORMAL,
+                    Width::NORMAL,
+                    Slant::Upright,
+                ),
+            );
+
+            let font: Font = Font::new(
+                typeface.unwrap(),
+                Some(32.0 as f32),
+            );
+
+            let mut t = self.text.as_str();
+
+
+            let text: Option<TextBlob> = TextBlob::from_str(
+                t,
+                &font,
+            );
+
+            let mut p: Paint = Paint::new(
+                Color4f::new(0.0, 0.0, 0.0, 0.0),
+                None
+            );
+            p.set_color(self.style.color.color);
+            p.set_style(skia_safe::PaintStyle::Fill);
+
+
+            //draw
+            let text_left = self.left + self.width / 3 + 20;
+            let text_bot = self.top + self.height;
+            canvas.draw_text_blob(
+                text.unwrap(),
+                Point::new(text_left as f32, text_bot as f32),
+                &p,
+            );
+
+
             canvas.draw_rect(rect, &paint);
             canvas.restore();
         }
@@ -103,12 +156,6 @@ impl GetWidth for BoxComponent {
     }
 }
 
-// impl GetMutParent for BoxComponent {
-//     fn get_mut_parent(&mut self) -> &mut Box<dyn ComponentTraits> {
-//         return &mut self.parent;
-//     }
-// }
-
 impl SetLeft for BoxComponent {
     fn set_left(&mut self, val: u32) {
         self.left = val;
@@ -126,6 +173,10 @@ impl GetType for BoxComponent {
         Some(Type::BOX)
     }
 }
+
+impl GetText for BoxComponent {}
+
+impl SetText for BoxComponent {}
 
 impl OnClick for BoxComponent {}
 

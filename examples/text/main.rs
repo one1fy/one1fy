@@ -3,6 +3,7 @@ use one1fy::framework::*;
 use one1fy::framework::components::{
     Color,
     TextComponent,
+    BarContainer,
 };
 
 // This function is only defined here because we are using windows.
@@ -18,7 +19,7 @@ fn build() {
     let text: String = "hello world".to_string();
     let color: Color = Color::from_hex(0xFF0000);
     let component: TextComponent = TextComponent::new(0, 0, 10, text, color);
-    let tree: Box<dyn ComponentTraits> = Box::new(component);
+    let tree: BarContainer<dyn ComponentTraits> = BarContainer::new(component);
 
     run_app(tree);
 }

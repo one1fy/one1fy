@@ -180,7 +180,7 @@ impl Draw for BarContainer{
 
 impl Find for BarContainer {
     fn find(&mut self, x: u32, y: u32) -> Option<Uuid> {
-        for i in 0..self.children.len() {
+        for i in (0..self.children.len()).rev() {
             let cur = &mut self.children[i];
             let val: Option<Uuid> = cur.find(x, y);
             if let None = val {
@@ -226,6 +226,8 @@ impl GetType for BarContainer {
         Some(Type::CONTAINER)
     }
 }
+
+impl GetText for BarContainer {}
 
 impl OnClick for BarContainer {}
 
