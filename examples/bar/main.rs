@@ -321,6 +321,7 @@ fn build() {
 
     let mut box_style_12: Style = Style::new(
         Color::from_hex(0xd0d0d0),
+        Color::set_alpha(0x00),
     );
     
     let mut box_12: BoxComponent = BoxComponent::new(

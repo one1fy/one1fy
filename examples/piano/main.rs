@@ -364,8 +364,12 @@ fn build() {
         " ".to_string(),
     );
 
+    let mut c = Color::from_hex(0xff00ff);
+    c.set_alpha(0x00);
+
     let mut box_style_text: Style = Style::new(
-        Color::from_hex(0x05FF00FF),
+        //Color::from_hex(0xFF00FF),
+        c,
     );
     
     let mut box_text: BoxComponent = BoxComponent::new(
