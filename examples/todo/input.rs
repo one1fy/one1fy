@@ -95,10 +95,10 @@ impl OnClick for InputField {
 
 impl OnPress for InputField {
     fn on_press(&mut self, key: char) {
-        if key == '~' {
+        if key == '∆' {
             self.text.pop();
         }
-        else if key == '$' {
+        else if key == 'µ' {
             self.offer = self.text.clone();
             self.text.clear();
         }

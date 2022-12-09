@@ -43,13 +43,66 @@ pub fn handle_press(press: KeyboardInput, tree: &mut BarContainer) {
             (11,'b'),
             (23,'n'),
             (22,'m'),
-            (74, '~'),
-            (75, '$'),
+            (74, '∆'),
+            (75, 'µ'),
             (76, ' '),
+            (123, '-'),
+            (111, '='),
+            (142, '/'),
         ]
     );
-    //println!("{}", press.virtual_keycode.unwrap() as u8);
-    let c = converter.get(&(press.virtual_keycode.unwrap() as u32));
+
+    let converter_shifted = HashMap::from(
+        [
+            (0, '!'),
+            (1, '@'),
+            (2, '#'),
+            (3, '$'),
+            (4, '%'),
+            (5, '^'),
+            (6, '&'),
+            (7, '*'),
+            (8, '('),
+            (9, ')'),
+            (26, 'Q'),
+            (32, 'W'),
+            (14,'E'),
+            (27,'R'),
+            (29,'T'),
+            (34,'Y'),
+            (30,'U'),
+            (18,'I'),
+            (24,'O'),
+            (25,'P'),
+            (10,'A'),
+            (28,'S'),
+            (13,'D'),
+            (15,'F'),
+            (16,'G'),
+            (17,'H'),
+            (19,'J'),
+            (20,'K'),
+            (21,'L'),
+            (35,'Z'),
+            (33,'X'),
+            (12,'C'),
+            (31,'V'),
+            (11,'B'),
+            (23,'N'),
+            (22,'M'),
+            (74, '∆'),
+            (75, 'µ'),
+            (76, ' '),
+            (123, '_'),
+            (111, '+'),
+            (142, '?'),
+        ]
+    );
+    println!("{}", press.virtual_keycode.unwrap() as u8);
+    let mut c = converter.get(&(press.virtual_keycode.unwrap() as u32));
+    if press.modifiers.shift() {
+        c = converter_shifted.get(&(press.virtual_keycode.unwrap() as u32));  
+    }
     if c.is_none() {
         println!("Unrecognized Key!");
     }

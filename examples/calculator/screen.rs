@@ -55,7 +55,7 @@ impl CalcScreen {
         }
     }
     pub fn calc(&mut self) {
-        let operands = vec!['+', '-', '*', '/', '='];
+        let operands = vec!['+', '-', '*', '/', '=', 'µ'];
         for i in 0..self.buttons.len() {
             let cur = &mut self.buttons[i];
             let val: String = cur.borrow_mut().get_text().unwrap();
@@ -64,9 +64,7 @@ impl CalcScreen {
                 if operands.contains(&c) {
                     println!("operand found");
                     if self.numString.len() == 0 {
-                        self.text = "err!".to_string();
-                        self.operation = 'x';
-                        self.operand = None;
+                        self.throw_err();
                         break;
                     }
                     let num = self.numString.parse::<i32>().unwrap();
@@ -93,7 +91,7 @@ impl CalcScreen {
 
                     }
 
-                    if c == '=' {
+                    if c == '=' || c == 'µ' {
                         if !self.operand.is_none() {
                             self.text = self.operand.unwrap().to_string();
                             self.numString.clear();
@@ -114,6 +112,12 @@ impl CalcScreen {
                 break;
             }
         }
+    }
+
+    pub fn throw_err(&mut self) {
+        self.text = "err!".to_string();
+        self.operation = 'x';
+        self.operand = None;
     }
 }
 
