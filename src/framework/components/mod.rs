@@ -110,6 +110,7 @@ pub trait ToggleVisible {
 
 pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop + GetType + Find + Remove + OnClick + ToggleVisible + SetStyle + OnPress + SetText + GetText {}
 
+#[derive(Copy, Clone)]
 pub struct Style {
     pub color: Color,
 }
@@ -122,6 +123,7 @@ impl Style {
     }
 }
 
+#[derive(Copy, Clone)]
 pub struct Color {
     pub color: u32,
 }

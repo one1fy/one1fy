@@ -49,5 +49,12 @@ pub fn handle_press(press: KeyboardInput, tree: &mut BarContainer) {
         ]
     );
     //println!("{}", press.virtual_keycode.unwrap() as u8);
-    tree.on_press(*converter.get(&(press.virtual_keycode.unwrap() as u32)).unwrap());
+    let c = converter.get(&(press.virtual_keycode.unwrap() as u32));
+    if c.is_none() {
+        println!("Unrecognized Key!");
+    }
+    else {
+        tree.on_press(*c.unwrap());
+    }
+    //tree.on_press(*converter.get(&(press.virtual_keycode.unwrap() as u32)).unwrap());
 }
