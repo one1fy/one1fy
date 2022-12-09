@@ -33,7 +33,13 @@ pub trait SetTop {
     fn set_top(&mut self, value: u32);
 }
 
-pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop {}
+pub trait OpenLink {
+    fn open_link(&mut self, link: String) {
+
+    }
+}
+
+pub trait ComponentTraits: Draw + GetWidth + GetHeight + SetLeft + SetTop + OpenLink {}
 
 pub struct Style {
     pub color: Color,
@@ -87,6 +93,6 @@ impl Color {
     }
 }
 
-impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop> ComponentTraits for T {}
+impl<T: Draw + GetHeight + GetWidth + SetLeft + SetTop + OpenLink> ComponentTraits for T {}
 
 
