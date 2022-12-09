@@ -1,15 +1,24 @@
 use skia_safe::{ Canvas, Rect, Color4f, Paint };
 
 use super::Style;
-use super::{ Draw, GetHeight, GetWidth, SetLeft, SetTop };
+use super::*;
+
+use skia_safe::font_style::Slant;
+use skia_safe::font_style::Weight;
+use skia_safe::font_style::Width;
+use skia_safe::TextBlob;
+use skia_safe::Typeface;
+use skia_safe::Point;
 
 pub struct BoxComponent {
+    pub id: Uuid,
     pub left: u32,
     pub top: u32,
     pub height: u32,
     pub width: u32,
     pub style: Style,
     pub visible: bool,
+    pub componentType: Type,
 }
 
 impl BoxComponent {
@@ -22,20 +31,23 @@ impl BoxComponent {
         visible: bool,
     ) -> BoxComponent {
         BoxComponent {
+            id: Uuid::new_v4(),
             left,
             top,
             height,
             width,
             style,
             visible,
+            componentType: Type::BOX,
         }
     }
 }
 
 impl Draw for BoxComponent {
-    fn draw(&self, canvas: &mut Canvas) {
+    fn draw(&mut self, canvas: &mut Canvas) {
         if self.visible {
             canvas.save();
+            use skia_safe::{Font, FontStyle};
             let right = self.left + self.width;
             let bottom = self.top + self.height;
             let rect = Rect::new(
@@ -49,9 +61,43 @@ impl Draw for BoxComponent {
                 None
             );
             paint.set_color(self.style.color.color);
+            
+
             canvas.draw_rect(rect, &paint);
             canvas.restore();
         }
+        
+    }
+}
+
+impl Find for BoxComponent {
+    fn find(&mut self, x: u32, y: u32) -> Option<Uuid> {
+        let right = self.left + self.width;
+        let bottom = self.top + self.height;
+        if x >= self.left && x <= right && y >= self.top && y <= bottom && self.visible {
+            self.on_click();
+            return Some(self.id);
+        }
+        else {
+            return None;
+        }
+    }
+}
+
+impl Remove for BoxComponent {
+    fn remove(&mut self, id: Uuid) -> bool {
+        if id == self.id {
+            true
+        }
+        else {
+            false
+        }
+    }
+}
+
+impl ToggleVisible for BoxComponent {
+    fn toggle_visible(&mut self) {
+        self.visible = !self.visible;
     }
 }
 
@@ -76,5 +122,23 @@ impl SetLeft for BoxComponent {
 impl SetTop for BoxComponent {
     fn set_top(&mut self, val: u32) {
         self.top = val;
+    }
+}
+
+impl GetType for BoxComponent {
+    fn get_type(&self) -> Option<Type> {
+        Some(Type::BOX)
+    }
+}
+
+impl GetText for BoxComponent {}
+
+impl SetText for BoxComponent {}
+
+impl OnClick for BoxComponent {}
+
+impl SetStyle for BoxComponent {
+    fn set_style(&mut self, style: Style) {
+        self.style = style;
     }
 }
